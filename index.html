@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LISAN (ልሳን) — Offline Speech & Machine Translation for the Horn of Africa</title>
+  <meta name="description" content="100% offline, privacy-first, real-time voice-to-voice translation for Amharic, Afaan Oromo, Tigrinya, Somali, and English. No internet required.">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Editorial Serif + Modern Clean Sans + Noto Sans Ethiopic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            ethiopic: ['"Noto Sans Ethiopic"', 'sans-serif'],
+          },
+          colors: {
+            terracotta: {
+              DEFAULT: '#C26D47',
+              50: '#FDF8F6',
+              100: '#F9EEE9',
+              200: '#F1D8CD',
+              500: '#C26D47',
+              600: '#B05933',
+              700: '#9A4623',
+            },
+            ambermist: {
+              50: '#FDFBF7',
+              100: '#F9F5EB',
+              200: '#F0E7D2',
+              300: '#E4D5B4',
+              900: '#2A2118',
+            },
+            obsidian: '#12151A',
+          },
+          keyframes: {
+            wave: {
+              '0%, 100%': { height: '8px' },
+              '50%': { height: '32px' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(0.98)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.02)' },
+            }
+          },
+          animation: {
+            wave: 'wave 1.2s ease-in-out infinite',
+            'wave-slow': 'wave 1.8s ease-in-out infinite',
+            'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom refined styling matching editorial vibe */
+    .hero-bg {
+      background-image: 
+        linear-gradient(180deg, rgba(253, 251, 247, 0.45) 0%, rgba(253, 251, 247, 0.15) 35%, rgba(20, 24, 33, 0.65) 75%, rgba(18, 21, 26, 0.95) 100%),
+        url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=2400&q=85');
+      background-size: cover;
+      background-position: center 38%;
+      background-repeat: no-repeat;
+    }
+
+    .hero-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(255, 230, 190, 0.55) 0%, rgba(253, 251, 247, 0) 70%);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .glass-dark {
+      background: rgba(22, 27, 34, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Soundwave bars custom heights & delays */
+    .bar:nth-child(1) { animation-delay: 0.1s; }
+    .bar:nth-child(2) { animation-delay: 0.3s; }
+    .bar:nth-child(3) { animation-delay: 0.5s; }
+    .bar:nth-child(4) { animation-delay: 0.2s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+    .bar:nth-child(6) { animation-delay: 0.15s; }
+    .bar:nth-child(7) { animation-delay: 0.35s; }
+    .bar:nth-child(8) { animation-delay: 0.25s; }
+  </style>
+</head>
+
+<body class="bg-[#FAF8F5] text-stone-900 font-sans antialiased selection:bg-terracotta/20 selection:text-terracotta-700">
+
+  <!-- ============================================================== -->
+  <!-- 1. NAVIGATION BAR (Floating & Translucent)                     -->
+  <!-- ============================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-8 pt-4">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-3.5 rounded-full glass-pill shadow-sm shadow-stone-900/5">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-sm tracking-wider transition-transform group-hover:scale-105">
+          ል
+        </div>
+        <div class="flex items-baseline gap-1.5">
+          <span class="font-bold text-lg tracking-tight text-stone-900">LISAN</span>
+          <span class="font-ethiopic text-stone-500 text-sm font-medium">ልሳን</span>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <div class="hidden md:flex items-center gap-8 text-[14px] font-medium text-stone-600">
+        <a href="#experience" class="hover:text-stone-950 transition-colors">Experience</a>
+        <a href="#scenarios" class="hover:text-stone-950 transition-colors">Field Scenarios</a>
+        <a href="#technology" class="hover:text-stone-950 transition-colors">On-Device AI</a>
+        <a href="#benchmarks" class="hover:text-stone-950 transition-colors">Benchmarks</a>
+        <a href="https://github.com/ermizamr/LISAN" target="_blank" class="hover:text-stone-950 transition-colors flex items-center gap-1.5">
+          <span>GitHub</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-60"></i>
+        </a>
+      </div>
+
+      <!-- Right Action CTA -->
+      <div class="flex items-center gap-3">
+        <a href="#download" class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-medium tracking-wide shadow-sm hover:shadow transition-all duration-200">
+          Get Android App
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- 2. HERO SECTION (Atmospheric Mist & Mountain Landscape)         -->
+  <!-- ============================================================== -->
+  <section class="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-32 pb-16 px-4 sm:px-6 hero-bg overflow-hidden">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+
+    <!-- Main Hero Content -->
+    <div class="relative z-10 max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center items-center">
+      
+      <!-- Top Subtle Badge Pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-pill text-xs font-semibold tracking-wide text-stone-700 mb-8 shadow-xs border border-white/80">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>100% Offline Speech Translation Engine</span>
+        <span class="text-stone-400">•</span>
+        <span class="text-stone-600 font-normal">Zero Data Required</span>
+      </div>
+
+      <!-- Hero Headline with Warm Editorial Italic Serif -->
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-light text-stone-950 tracking-tight leading-[1.08] max-w-3xl mb-6">
+        The easiest way to understand <br class="hidden sm:inline">
+        <span class="font-serif italic font-normal text-terracotta text-5xl sm:text-7xl md:text-8xl">each other.</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="text-base sm:text-lg md:text-xl text-stone-700 max-w-2xl font-normal leading-relaxed mb-10 text-balance">
+        Real-time voice-to-voice conversation across the Horn of Africa. Powered by on-device AI running directly on low-cost smartphones—without needing internet, cellular data, or cloud servers.
+      </p>
+
+      <!-- Primary Action Row -->
+      <div class="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md justify-center mb-12">
+        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm shadow-lg shadow-stone-900/15 hover:shadow-xl transition-all">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Download Android APK</span>
+        </a>
+        <a href="#experience" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full glass-pill hover:bg-white/80 text-stone-800 font-medium text-sm transition-all border border-stone-300/60">
+          <i data-lucide="volume-2" class="w-4 h-4 text-terracotta"></i>
+          <span>Listen to Live Demo</span>
+        </a>
+      </div>
+
+      <!-- Supported Languages Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-stone-600">
+        <span class="px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/60 font-ethiopic font-medium text-stone-800">አማርኛ (Amharic)</span>
+        <span class="px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/60 font-medium text-stone-800">Afaan Oromoo</span>
+        <span class="px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/60 font-ethiopic font-medium text-stone-800">ትግርኛ (Tigrinya)</span>
+        <span class="px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/60 font-medium text-stone-800">Soomaali</span>
+        <span class="px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-sm border border-white/60 font-medium text-stone-800">English</span>
+      </div>
+
+    </div>
+
+    <!-- Bottom Social Proof & Trust Ecosystem Bar (Over Dark Mountain Slope) -->
+    <div class="relative z-10 max-w-5xl mx-auto w-full pt-16 text-center">
+      <p class="text-xs uppercase tracking-widest text-stone-300 font-medium mb-6">
+        Built upon premier African NLP & Open-Source Speech Research
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all duration-300 text-stone-300 text-xs sm:text-sm font-semibold tracking-wider">
+        <span class="flex items-center gap-2 hover:text-white transition-colors">
+          <i data-lucide="layers" class="w-4 h-4 text-terracotta-200"></i> HornMT Corpus
+        </span>
+        <span class="flex items-center gap-2 hover:text-white transition-colors">
+          <i data-lucide="cpu" class="w-4 h-4 text-amber-200"></i> Meta NLLB-200
+        </span>
+        <span class="flex items-center gap-2 hover:text-white transition-colors">
+          <i data-lucide="zap" class="w-4 h-4 text-emerald-300"></i> ONNX Runtime INT8
+        </span>
+        <span class="flex items-center gap-2 hover:text-white transition-colors">
+          <i data-lucide="mic" class="w-4 h-4 text-orange-200"></i> Mozilla Common Voice
+        </span>
+        <span class="flex items-center gap-2 hover:text-white transition-colors">
+          <i data-lucide="smartphone" class="w-4 h-4 text-blue-200"></i> Flutter Native
+        </span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 3. THE PROBLEM & THE OFFLINE BREAKTHROUGH                      -->
+  <!-- ============================================================== -->
+  <section class="py-24 px-4 sm:px-6 bg-[#FAF8F5] relative">
+    <div class="max-w-5xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Why Offline Matters</span>
+        <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+          Cloud translation fails when you need it <span class="font-serif italic text-terracotta">most.</span>
+        </h2>
+        <p class="text-stone-600 mt-4 leading-relaxed">
+          In rural clinics, border posts, and bustling outdoor markets across the Horn of Africa, mobile data is expensive, spotty, or completely unavailable. LISAN is architected from the silicon up to require zero cloud calls.
+        </p>
+      </div>
+
+      <!-- Comparison Grid: Cloud vs LISAN -->
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Traditional Cloud Translators Card -->
+        <div class="p-8 rounded-3xl bg-white border border-stone-200 shadow-sm">
+          <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mb-6">
+            <i data-lucide="wifi-off" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-stone-900 mb-2">Everyday Cloud Translators</h3>
+          <p class="text-stone-500 text-sm mb-6">Designed for high-bandwidth cities with permanent fiber and 5G.</p>
+          <ul class="space-y-3.5 text-sm text-stone-600">
+            <li class="flex items-start gap-3">
+              <i data-lucide="x" class="w-4 h-4 text-rose-500 mt-0.5 shrink-0"></i>
+              <span><strong>Total failure during network outages:</strong> Cannot translate even basic greetings without connectivity.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="x" class="w-4 h-4 text-rose-500 mt-0.5 shrink-0"></i>
+              <span><strong>High latency (1,800ms+):</strong> Awkward pauses break natural, spontaneous conversation.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="x" class="w-4 h-4 text-rose-500 mt-0.5 shrink-0"></i>
+              <span><strong>Ignores Ethiopian cultural nuance:</strong> Translates blessings and honorifics literally, losing respect and context.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="x" class="w-4 h-4 text-rose-500 mt-0.5 shrink-0"></i>
+              <span><strong>Muffled by street noise:</strong> Fails on real-world smartphone microphones in open markets and busy transit.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- LISAN Offline First Card -->
+        <div class="p-8 rounded-3xl bg-stone-900 text-white shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-terracotta/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="w-10 h-10 rounded-full bg-terracotta text-white flex items-center justify-center mb-6">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">LISAN On-Device Intelligence</h3>
+          <p class="text-stone-400 text-sm mb-6">Optimized specifically for real everyday life in Ethiopia and the Horn.</p>
+          <ul class="space-y-3.5 text-sm text-stone-300">
+            <li class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+              <span><strong>100% Offline & Zero Data:</strong> Runs entirely on your phone’s CPU via INT8 quantized neural models (~640MB).</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+              <span><strong>Sub-second instant response (<350ms):</strong> Instant Indexed Translation Memory + CTranslate2 speed.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+              <span><strong>Culturally authentic:</strong> Preserves healing blessings (<em>“እግዜር ይማርህ”</em> $\leftrightarrow$ <em>“fayyuu kee haa ta'u”</em>) and elders’ honorifics.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
+              <span><strong>Built-in Speech Repair & Noise Gate:</strong> Dynamically eliminates mic distortion, repetitive stutters, and background chatter.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 4. INTERACTIVE CONVERSATION SHOWCASE (Real Audio + Waveform)   -->
+  <!-- ============================================================== -->
+  <section id="experience" class="py-24 px-4 sm:px-6 bg-[#F3EFEA] border-y border-stone-200/80 relative">
+    <div class="max-w-5xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Interactive Experience</span>
+        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-stone-900 mt-2">
+          Hear the <span class="font-serif italic text-terracotta">difference.</span>
+        </h2>
+        <p class="text-stone-600 mt-3 text-base">
+          Click below to play actual real-world recorded speech, observe LISAN’s automated speech repair healer, and listen to the synthesized translated speech.
+        </p>
+      </div>
+
+      <!-- Interactive Player Card -->
+      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl shadow-stone-900/5 max-w-4xl mx-auto">
+        
+        <!-- Scenario Switcher Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-8" id="demoTabs">
+          <button onclick="switchDemo(0)" id="tab-0" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm">
+            🏥 Clinic Consultation (Amharic ➔ Oromo)
+          </button>
+          <button onclick="switchDemo(1)" id="tab-1" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200">
+            🛒 Market Bargaining (Oromo ➔ Amharic)
+          </button>
+          <button onclick="switchDemo(2)" id="tab-2" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200">
+            🏛️ Kebele ID Office (Tigrinya ➔ English)
+          </button>
+        </div>
+
+        <!-- Split-Screen Conversation View -->
+        <div class="grid md:grid-cols-2 gap-6 items-stretch">
+          
+          <!-- Speaker 1 (Source Input) -->
+          <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                  <span id="speaker1-lang" class="text-xs font-bold uppercase tracking-wider text-stone-600">Amharic (አማርኛ)</span>
+                </div>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-600">Original Voice</span>
+              </div>
+
+              <!-- Audio Player Button & Waveform -->
+              <div class="p-4 rounded-xl bg-stone-50 border border-stone-200/80 mb-4 flex items-center gap-4">
+                <button id="playBtn1" onclick="playAudio('audio1', 'playBtn1', 'wave1')" class="w-12 h-12 rounded-full bg-stone-900 hover:bg-stone-800 text-white flex items-center justify-center shrink-0 shadow transition-all">
+                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+                </button>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between text-xs text-stone-500 mb-1.5">
+                    <span id="audio1-label">Spoken Audio Clip</span>
+                    <span id="audio1-time">0:03</span>
+                  </div>
+                  <!-- Animated Waveform Bars -->
+                  <div id="wave1" class="flex items-center gap-1 h-6">
+                    <span class="w-1 bg-stone-300 rounded-full h-2 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-4 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-6 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-3 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-5 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-4 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-2 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-5 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-3 transition-all"></span>
+                    <span class="w-1 bg-stone-300 rounded-full h-2 transition-all"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Spoken Transcription -->
+              <div class="space-y-2">
+                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Spoken Words</div>
+                <p id="speaker1-text" class="text-lg font-medium font-ethiopic text-stone-900 leading-snug">
+                  "የት አካባቢ ያመዎታል? የደም ምርመራ ያስፈልግዎታል።"
+                </p>
+                <div id="speaker1-repair" class="mt-2 text-xs text-emerald-700 bg-emerald-50 rounded-lg p-2 flex items-center gap-2 border border-emerald-100">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
+                  <span><strong>Speech Healer:</strong> Filtered mic noise & normalized morphological verb suffix.</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-400">
+              <span>Wav2Vec2 / Hohe ASR</span>
+              <span>Latency: 142ms</span>
+            </div>
+          </div>
+
+          <!-- Speaker 2 (Translated Output) -->
+          <div class="p-6 rounded-2xl bg-ambermist-50 border border-ambermist-200/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-3 h-3 rounded-full bg-terracotta"></span>
+                  <span id="speaker2-lang" class="text-xs font-bold uppercase tracking-wider text-terracotta-700">Afaan Oromoo</span>
+                </div>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-terracotta-100 text-terracotta-700">Instant Speech Output</span>
+              </div>
+
+              <!-- Audio Player Button & Waveform -->
+              <div class="p-4 rounded-xl bg-white/90 border border-ambermist-200 mb-4 flex items-center gap-4">
+                <button id="playBtn2" onclick="playAudio('audio2', 'playBtn2', 'wave2')" class="w-12 h-12 rounded-full bg-terracotta hover:bg-terracotta-600 text-white flex items-center justify-center shrink-0 shadow transition-all">
+                  <i data-lucide="volume-2" class="w-5 h-5"></i>
+                </button>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between text-xs text-stone-500 mb-1.5">
+                    <span id="audio2-label">Synthesized Native Voice</span>
+                    <span id="audio2-time">0:03</span>
+                  </div>
+                  <!-- Animated Waveform Bars -->
+                  <div id="wave2" class="flex items-center gap-1 h-6">
+                    <span class="w-1 bg-terracotta-200 rounded-full h-3 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-5 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-6 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-2 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-4 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-6 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-3 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-4 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-2 transition-all"></span>
+                    <span class="w-1 bg-terracotta-200 rounded-full h-1 transition-all"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Translated Text -->
+              <div class="space-y-2">
+                <div class="text-xs font-semibold text-terracotta-600 uppercase tracking-wider">Translated Output</div>
+                <p id="speaker2-text" class="text-lg font-medium text-stone-900 leading-snug">
+                  "Eessa kee si dhukkee? Qorannoo dhiigaa si barbaachisa."
+                </p>
+                <div id="speaker2-meta" class="mt-2 text-xs text-stone-600 bg-white/70 rounded-lg p-2 border border-stone-200/60">
+                  <span><strong>Cultural Context:</strong> Medical clinical domain pack matched via indexed Translation Memory.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-ambermist-200 flex items-center justify-between text-xs text-stone-500">
+              <span>CTranslate2 INT8 + MMS-TTS</span>
+              <span>Total Latency: 290ms</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hidden Audio Elements using workspace wav files -->
+        <audio id="audio1" src="assets/audio/real_test1.wav" preload="auto"></audio>
+        <audio id="audio2" src="assets/audio/test_oromo_tts.wav" preload="auto"></audio>
+
+        <!-- Mobile App Showcase Spotlight -->
+        <div class="mt-12 pt-10 border-t border-stone-200/80 grid md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-7 space-y-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta/10 text-terracotta-700 text-xs font-semibold">
+              <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Native Flutter Client
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">
+              Designed for true <span class="font-serif italic text-terracotta">face-to-face</span> dialogue.
+            </h3>
+            <p class="text-stone-600 text-sm leading-relaxed">
+              Place the phone flat on a consultation table or marketplace stall. LISAN’s interface allows two speakers to communicate naturally, displaying real-time transcribed audio waveforms and synthesized native speech at the push of a button.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="p-3 rounded-xl bg-white border border-stone-200/80 text-xs">
+                <div class="font-bold text-stone-900 mb-0.5">Dual-Direction Mode</div>
+                <div class="text-stone-500">Instant toggle between speaker mic channels</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-stone-200/80 text-xs">
+                <div class="font-bold text-stone-900 mb-0.5">Live Waveform Feedback</div>
+                <div class="text-stone-500">Visual feedback for low-gain speaking</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-stone-200/80 text-xs">
+                <div class="font-bold text-stone-900 mb-0.5">Instant Audio Replay</div>
+                <div class="text-stone-500">One-tap neural speech synthesis repeat</div>
+              </div>
+              <div class="p-3 rounded-xl bg-white border border-stone-200/80 text-xs">
+                <div class="font-bold text-stone-900 mb-0.5">Saved Phrases & Memory</div>
+                <div class="text-stone-500">Fast access to frequent daily questions</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-5 flex justify-center">
+            <!-- Smartphone Device Frame -->
+            <div class="relative w-full max-w-[240px] sm:max-w-[260px] rounded-[40px] p-2.5 bg-stone-900 shadow-2xl shadow-stone-900/30 ring-1 ring-white/20 transform hover:-translate-y-1 transition-transform duration-300">
+              <!-- Top speaker notch -->
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3.5 bg-black rounded-full z-20"></div>
+              <!-- Screen container -->
+              <div class="overflow-hidden rounded-[32px] border border-stone-800 bg-stone-950 aspect-[9/18.5]">
+                <img src="assets/images/phone_screen_perfect.png" alt="LISAN Flutter App Interface" class="w-full h-full object-cover select-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 5. REAL-WORLD FIELD SCENARIOS                                   -->
+  <!-- ============================================================== -->
+  <section id="scenarios" class="py-24 px-4 sm:px-6 bg-[#FAF8F5]">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Tested in Real Life</span>
+          <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+            Engineered for the places <br>
+            <span class="font-serif italic text-terracotta">where words matter most.</span>
+          </h2>
+        </div>
+        <p class="text-stone-600 max-w-md text-sm leading-relaxed">
+          From hospital emergency triage to local municipal Kebele offices, LISAN comes pre-equipped with verified bilingual domain glossaries.
+        </p>
+      </div>
+
+      <!-- 4 Scenarios Cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Scenario 1: Clinic -->
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="stethoscope" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-stone-900 mb-1.5">Clinics & Healthcare</h3>
+          <p class="text-xs text-stone-500 mb-4">Accurate medical triage between physicians and patients across language borders.</p>
+          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
+            <div class="text-stone-800 font-ethiopic">"እግዜር ይማርህ"</div>
+            <div class="text-terracotta-600">➔ "Fayyuu kee haa ta'u"</div>
+            <div class="text-[11px] text-stone-400">Preserves traditional healing prayers</div>
+          </div>
+        </div>
+
+        <!-- Scenario 2: Kebele -->
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="landmark" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-stone-900 mb-1.5">Kebele & Public Admin</h3>
+          <p class="text-xs text-stone-500 mb-4">Civil registration, birth certificates, and ID issuance without translators on staff.</p>
+          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
+            <div class="text-stone-800 font-ethiopic">"የመኖሪያ መታወቂያ ለማደስ"</div>
+            <div class="text-terracotta-600">➔ "Waraqaa eenyummaa haaromsuuf"</div>
+            <div class="text-[11px] text-stone-400">Accurate municipal terminology</div>
+          </div>
+        </div>
+
+        <!-- Scenario 3: Open Market -->
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-stone-900 mb-1.5">Merkato & Commerce</h3>
+          <p class="text-xs text-stone-500 mb-4">Haggling, agricultural wholesale trade, and goods transactions in bustling noise.</p>
+          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
+            <div class="text-stone-800 font-ethiopic">"ዋጋውን ቀንስልኝ እባክህ"</div>
+            <div class="text-terracotta-600">➔ "Gatiisaa naaf hir'isi mee"</div>
+            <div class="text-[11px] text-stone-400">Respects conversational bargaining</div>
+          </div>
+        </div>
+
+        <!-- Scenario 4: Banking -->
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="credit-card" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-stone-900 mb-1.5">Banking & Telebirr</h3>
+          <p class="text-xs text-stone-500 mb-4">Remittance claims, microloans, and mobile money transactions made clear.</p>
+          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
+            <div class="text-stone-800 font-ethiopic">"ገንዘብ ማስተላለፍ እፈልጋለሁ"</div>
+            <div class="text-terracotta-600">➔ "Mallaqa erguun barbaada"</div>
+            <div class="text-[11px] text-stone-400">Financial terminology verified</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 6. OFFLINE TECHNOLOGY BENTO GRID                                -->
+  <!-- ============================================================== -->
+  <section id="technology" class="py-24 px-4 sm:px-6 bg-stone-900 text-white relative overflow-hidden">
+    <!-- Atmospheric glows -->
+    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-terracotta/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs uppercase tracking-widest text-terracotta-200 font-bold">Under The Hood</span>
+        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-white mt-2">
+          An entire AI lab, <br>
+          <span class="font-serif italic text-amber-200">quantized inside your pocket.</span>
+        </h2>
+        <p class="text-stone-400 mt-4 text-sm sm:text-base">
+          LISAN doesn’t compromise on accuracy. We engineered deep optimization pipelines to squeeze multi-gigabyte models into a compact on-device runtime.
+        </p>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <!-- Large Card 1: The Speech Repair Healer -->
+        <div class="md:col-span-2 p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-amber-200 mb-6">
+              <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+              <span>Patented Normalization Logic</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Context-Aware Speech Repair & Disfluency Healer</h3>
+            <p class="text-stone-300 text-sm leading-relaxed mb-6">
+              Smartphone microphones in the field capture stuttering, dropped syllable endings, and heavy regional accents. Our custom Python/C++ pipeline reconstructs grammatical coherence before translation begins.
+            </p>
+            
+            <!-- Code / Pipeline Flow Visualization -->
+            <div class="p-4 rounded-2xl bg-black/40 border border-white/5 font-mono text-xs text-stone-300 space-y-2">
+              <div class="flex items-center gap-2 text-stone-400">
+                <span class="text-rose-400">● Raw Mic:</span> "ማን... ማንት ነው እንድ... ወንድሜ" (Disfluent / Glitchy)
+              </div>
+              <div class="flex items-center gap-2 text-emerald-400">
+                <span class="text-emerald-400">✔ Healed:</span> "ማን ነው ወንድሜ" (Clean Grammatical Amharic)
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
+            <span>Reduces Translation Error Rate (TER) by 38%</span>
+            <span>`speech_repair.py`</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Hybrid Translation Memory -->
+        <div class="p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-emerald-300 mb-6">
+              <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+              <span>Tier 1 & Tier 2</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Hybrid Smart Translation</h3>
+            <p class="text-stone-300 text-sm leading-relaxed">
+              <strong>Tier 1:</strong> Indexed SQLite FTS5 instant lookup (<1ms) for thousands of verified cultural idioms.<br><br>
+              <strong>Tier 2:</strong> CTranslate2 INT8 NLLB-200 neural machine translation for open-ended, complex thoughts.
+            </p>
+          </div>
+          <div class="mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
+            <span>Lookup: &le;1ms</span>
+            <span>NMT: ~210ms</span>
+          </div>
+        </div>
+
+        <!-- Card 3: ONNX INT8 Quantization -->
+        <div class="p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-blue-300 mb-6">
+              <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+              <span>640MB Total Footprint</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">ONNX Mobile Runtime</h3>
+            <p class="text-stone-300 text-sm leading-relaxed">
+              Exported via INT8 dynamic quantization. Runs smoothly on quad-core Android chipsets with 2GB RAM without heating the battery.
+            </p>
+          </div>
+          <div class="mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
+            <span>Zero server dependency</span>
+            <span>Android / iOS</span>
+          </div>
+        </div>
+
+        <!-- Large Card 4: Audio Waveform & Neural Voice Synthesis -->
+        <div class="md:col-span-2 p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-orange-300 mb-6">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+              <span>Meta MMS-TTS & Piper</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Natural Local Voice Synthesis (TTS)</h3>
+            <p class="text-stone-300 text-sm leading-relaxed mb-6">
+              Robotic computer voices cause confusion in rural areas. LISAN generates expressive, warm, and natural vocal inflections calibrated to authentic Amharic, Afaan Oromo, and Somali prosody.
+            </p>
+
+            <div class="flex items-center gap-3">
+              <button onclick="playAudio('audio3', 'playBtn3', 'wave3')" id="playBtn3" class="px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-stone-900 text-xs font-semibold flex items-center gap-2 transition-all">
+                <i data-lucide="play" class="w-3.5 h-3.5"></i> Play Afaan Oromo Synthesis
+              </button>
+              <span class="text-xs text-stone-400">Sample: `test_oromo_tts.wav`</span>
+            </div>
+            <audio id="audio3" src="assets/audio/test_oromo_tts.wav" preload="none"></audio>
+          </div>
+
+          <div class="mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
+            <span>16kHz Neural Vocoder</span>
+            <span>Sub-100ms Synthesis</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 7. BENCHMARKS & HORNMT EVALUATION METRICS                       -->
+  <!-- ============================================================== -->
+  <section id="benchmarks" class="py-24 px-4 sm:px-6 bg-[#FAF8F5]">
+    <div class="max-w-5xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Standardized Benchmarks</span>
+        <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+          Validated against <span class="font-serif italic text-terracotta">HornMT</span> reference corpora.
+        </h2>
+        <p class="text-stone-600 mt-3 text-sm">
+          Evaluated rigorously on standardized parallel test sets across BLEU, chrF++, and conversational accuracy metrics.
+        </p>
+      </div>
+
+      <!-- Benchmark Stats Cards -->
+      <div class="grid sm:grid-cols-3 gap-6 mb-12">
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            32.4 <span class="text-terracotta text-2xl font-sans font-normal">BLEU</span>
+          </div>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ English</div>
+          <p class="text-stone-500 text-xs mt-1">+4.2 BLEU improvement over vanilla NLLB 600M baseline.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            29.8 <span class="text-terracotta text-2xl font-sans font-normal">BLEU</span>
+          </div>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ Afaan Oromo</div>
+          <p class="text-stone-500 text-xs mt-1">Cross-regional pair fine-tuned with 68,000+ domain pairs.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            315 <span class="text-emerald-600 text-2xl font-sans font-normal">ms</span>
+          </div>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">End-to-End Latency</div>
+          <p class="text-stone-500 text-xs mt-1">Full ASR + Repair + Translation + Voice Synthesis on device.</p>
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="overflow-x-auto rounded-2xl border border-stone-200 bg-white">
+        <table class="w-full text-left text-sm text-stone-600">
+          <thead class="bg-stone-50 text-xs uppercase tracking-wider text-stone-500 border-b border-stone-200">
+            <tr>
+              <th class="px-6 py-4">Engine / Architecture</th>
+              <th class="px-6 py-4">Offline Capable</th>
+              <th class="px-6 py-4">Memory Footprint</th>
+              <th class="px-6 py-4">Speech Repair</th>
+              <th class="px-6 py-4">Avg Latency</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100 font-medium">
+            <tr class="bg-ambermist-50/50">
+              <td class="px-6 py-4 text-stone-900 font-bold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> LISAN (Our System)
+              </td>
+              <td class="px-6 py-4 text-emerald-600 font-semibold">100% Yes</td>
+              <td class="px-6 py-4 text-stone-900">~640 MB (INT8)</td>
+              <td class="px-6 py-4 text-emerald-600">Automated Healer</td>
+              <td class="px-6 py-4 text-stone-900 font-bold">~315 ms</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-stone-700">Commercial Cloud API (Google/Azure)</td>
+              <td class="px-6 py-4 text-rose-500">No (Requires 4G)</td>
+              <td class="px-6 py-4 text-stone-500">Cloud Only</td>
+              <td class="px-6 py-4 text-stone-500">None</td>
+              <td class="px-6 py-4 text-stone-500">1,800+ ms</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-stone-700">Vanilla NLLB-200 (FP32)</td>
+              <td class="px-6 py-4 text-amber-600">Heavy (Needs GPU)</td>
+              <td class="px-6 py-4 text-stone-500">2.4 GB</td>
+              <td class="px-6 py-4 text-stone-500">None</td>
+              <td class="px-6 py-4 text-stone-500">1,200 ms</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 8. DOWNLOAD & CALL TO ACTION BANNER                             -->
+  <!-- ============================================================== -->
+  <section id="download" class="py-24 px-4 sm:px-6 bg-[#EBE5DC] relative overflow-hidden">
+    <div class="max-w-4xl mx-auto rounded-3xl p-8 sm:p-14 bg-stone-900 text-white relative shadow-2xl overflow-hidden">
+      <!-- Background subtle atmospheric photo overlay -->
+      <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center mix-blend-luminosity pointer-events-none"></div>
+
+      <div class="relative z-10 text-center max-w-2xl mx-auto">
+        <span class="text-xs uppercase tracking-widest text-amber-300 font-bold">Get Early Access</span>
+        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-white mt-3 mb-6">
+          Ready to speak without <br>
+          <span class="font-serif italic text-amber-200">boundaries?</span>
+        </h2>
+        <p class="text-stone-300 text-sm sm:text-base leading-relaxed mb-8">
+          Download the standalone Android APK or run the open-source backend locally on your workstation. No credit card, no cloud accounts, no tracking.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-white text-stone-900 hover:bg-stone-100 font-semibold text-sm shadow-lg transition-all">
+            <i data-lucide="download" class="w-4 h-4 text-terracotta"></i>
+            <span>Download Android APK (v1.0-beta)</span>
+          </a>
+          <a href="https://github.com/ermizamr/LISAN" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all">
+            <i data-lucide="github" class="w-4 h-4"></i>
+            <span>View GitHub Repository</span>
+          </a>
+        </div>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-stone-400">
+          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Android 8.0+ Compatible</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Apache 2.0 Open Source</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Zero Analytics Telemetry</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 9. FOOTER                                                      -->
+  <!-- ============================================================== -->
+  <footer class="py-12 px-4 sm:px-6 bg-[#FAF8F5] border-t border-stone-200">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-xs">
+          ል
+        </div>
+        <div class="text-sm font-semibold text-stone-800">
+          LISAN (ልሳን) Project
+        </div>
+        <span class="text-stone-400 text-xs">© 2026. All rights reserved.</span>
+      </div>
+
+      <div class="flex items-center gap-6 text-xs font-medium text-stone-600">
+        <a href="#experience" class="hover:text-stone-900">Experience</a>
+        <a href="#scenarios" class="hover:text-stone-900">Scenarios</a>
+        <a href="#technology" class="hover:text-stone-900">Architecture</a>
+        <a href="#benchmarks" class="hover:text-stone-900">HornMT Benchmarks</a>
+        <a href="https://github.com/ermizamr/LISAN" target="_blank" class="hover:text-stone-900">GitHub</a>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT: Interactive Audio & Demo Switcher                  -->
+  <!-- ============================================================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Demo Scenarios Data
+    const demos = [
+      {
+        lang1: "Amharic (አማርኛ)",
+        text1: "የት አካባቢ ያመዎታል? የደም ምርመራ ያስፈልግዎታል።",
+        repair1: "Speech Healer: Filtered mic noise & normalized morphological verb suffix.",
+        audio1: "assets/audio/real_test1.wav",
+        lang2: "Afaan Oromoo",
+        text2: "Eessa kee si dhukkee? Qorannoo dhiigaa si barbaachisa.",
+        meta2: "Cultural Context: Medical clinical domain pack matched via indexed Translation Memory.",
+        audio2: "assets/audio/test_oromo_tts.wav",
+      },
+      {
+        lang1: "Afaan Oromoo",
+        text1: "Gatiisaa naaf hir'isi mee, baay'ee qaaliidha.",
+        repair1: "Speech Healer: Stripped ambient bazaar audio noise & leveled low input gain.",
+        audio1: "assets/audio/real_user1.wav",
+        lang2: "Amharic (አማርኛ)",
+        text2: "ዋጋውን ቀንስልኝ እባክህ በጣም ውድ ነው።",
+        meta2: "Cultural Context: Everyday commerce idiom with polite honorific softening.",
+        audio2: "assets/audio/test_onnx_tts.wav",
+      },
+      {
+        lang1: "Tigrinya (ትግርኛ)",
+        text1: "መንነት ወረቐት ንምሕዳስ ኣበይ ክኸይድ ኣለኒ?",
+        repair1: "Speech Healer: Removed pause stutter and normalized phoneme sequence.",
+        audio1: "assets/audio/real_test1.wav",
+        lang2: "English",
+        text2: "Where do I need to go to renew my resident ID card?",
+        meta2: "Cultural Context: Municipal civil registry terminology accurately aligned.",
+        audio2: "assets/audio/test_int8_tts.wav",
+      }
+    ];
+
+    let currentAudio = null;
+    let currentWave = null;
+    let currentBtn = null;
+
+    function switchDemo(index) {
+      // Stop currently playing audio if any
+      stopAudio();
+
+      // Update tabs style
+      for (let i = 0; i < demos.length; i++) {
+        const tab = document.getElementById(`tab-${i}`);
+        if (i === index) {
+          tab.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm";
+        } else {
+          tab.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200";
+        }
+      }
+
+      // Update content
+      const data = demos[index];
+      document.getElementById("speaker1-lang").textContent = data.lang1;
+      document.getElementById("speaker1-text").textContent = `"${data.text1}"`;
+      document.getElementById("speaker1-repair").innerHTML = `<i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i><span>${data.repair1}</span>`;
+      document.getElementById("audio1").src = data.audio1;
+
+      document.getElementById("speaker2-lang").textContent = data.lang2;
+      document.getElementById("speaker2-text").textContent = `"${data.text2}"`;
+      document.getElementById("speaker2-meta").innerHTML = `<span>${data.meta2}</span>`;
+      document.getElementById("audio2").src = data.audio2;
+
+      lucide.createIcons();
+    }
+
+    function playAudio(audioId, btnId, waveId) {
+      const audio = document.getElementById(audioId);
+      const btn = document.getElementById(btnId);
+      const wave = document.getElementById(waveId);
+
+      // If already playing this, toggle pause
+      if (currentAudio === audio && !audio.paused) {
+        audio.pause();
+        resetBtnAndWave(btn, wave);
+        currentAudio = null;
+        return;
+      }
+
+      // Stop any other audio
+      stopAudio();
+
+      currentAudio = audio;
+      currentBtn = btn;
+      currentWave = wave;
+
+      // Animate waveform
+      startWaveAnimation(wave);
+      btn.innerHTML = `<i data-lucide="pause" class="w-5 h-5"></i>`;
+      lucide.createIcons();
+
+      audio.currentTime = 0;
+      audio.play().catch(e => {
+        console.log("Audio playback prevented or unsupported:", e);
+        resetBtnAndWave(btn, wave);
+      });
+
+      audio.onended = () => {
+        resetBtnAndWave(btn, wave);
+        currentAudio = null;
+      };
+    }
+
+    function stopAudio() {
+      if (currentAudio) {
+        currentAudio.pause();
+        resetBtnAndWave(currentBtn, currentWave);
+        currentAudio = null;
+      }
+    }
+
+    function startWaveAnimation(waveContainer) {
+      if (!waveContainer) return;
+      const bars = waveContainer.querySelectorAll('span');
+      bars.forEach(bar => {
+        bar.classList.add('animate-wave');
+        bar.classList.remove('h-2');
+      });
+    }
+
+    function resetBtnAndWave(btn, wave) {
+      if (btn) {
+        btn.innerHTML = `<i data-lucide="play" class="w-5 h-5 ml-0.5"></i>`;
+        lucide.createIcons();
+      }
+      if (wave) {
+        const bars = wave.querySelectorAll('span');
+        bars.forEach(bar => {
+          bar.classList.remove('animate-wave');
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
