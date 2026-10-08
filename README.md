@@ -34,12 +34,11 @@ And available at [http://localhost:8000/landing/](http://localhost:8000/landing/
 
 ---
 
-## 🌐 Deploying to GitHub Pages
+## 🌐 Live Deployment
 
-1. Go to repository **Settings** $\rightarrow$ **Pages**.
-2. Under **Build and deployment** $\rightarrow$ **Source**, choose **Deploy from a branch**.
-3. Select branch `main` and folder `/ (root)`.
-4. Click **Save**. Your site will be live at `https://ermizamr.github.io/lisan-landing-page/`!
+Live at: **[https://lisan.ermizamr.tech](https://lisan.ermizamr.tech)**
+
+Deployable instantly to Vercel, Netlify, Cloudflare Pages, or GitHub Pages.
 
 ---
 

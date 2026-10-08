@@ -261,7 +261,7 @@
           Cloud translation fails when you need it <span class="font-serif italic text-terracotta">most.</span>
         </h2>
         <p class="text-stone-600 mt-4 leading-relaxed">
-          In rural clinics, border posts, and bustling outdoor markets across the Horn of Africa, mobile data is expensive, spotty, or completely unavailable. LISAN is architected from the silicon up to require zero cloud calls.
+          In rural clinics, border posts, and bustling outdoor markets across the Horn of Africa, mobile data is expensive, spotty, or completely unavailable. LISAN is engineered from the ground up to run fully offline without needing cloud servers.
         </p>
       </div>
 
@@ -645,11 +645,11 @@
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-amber-200 mb-6">
               <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
-              <span>Patented Normalization Logic</span>
+              <span>Morphological Speech Normalizer</span>
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Context-Aware Speech Repair & Disfluency Healer</h3>
             <p class="text-stone-300 text-sm leading-relaxed mb-6">
-              Smartphone microphones in the field capture stuttering, dropped syllable endings, and heavy regional accents. Our custom Python/C++ pipeline reconstructs grammatical coherence before translation begins.
+              Smartphone microphones in the field capture stuttering, dropped syllable endings, and conversational contractions. Our pipeline reconstructs clean grammatical text before passing it to translation.
             </p>
             
             <!-- Code / Pipeline Flow Visualization -->
@@ -664,7 +664,7 @@
           </div>
 
           <div class="mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
-            <span>Reduces Translation Error Rate (TER) by 38%</span>
+            <span>Normalizes colloquial contractions & speech artifacts</span>
             <span>`speech_repair.py`</span>
           </div>
         </div>
@@ -678,13 +678,13 @@
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Hybrid Smart Translation</h3>
             <p class="text-stone-300 text-sm leading-relaxed">
-              <strong>Tier 1:</strong> Indexed SQLite FTS5 instant lookup (<1ms) for thousands of verified cultural idioms.<br><br>
-              <strong>Tier 2:</strong> CTranslate2 INT8 NLLB-200 neural machine translation for open-ended, complex thoughts.
+              <strong>Tier 1:</strong> 57.3 MB indexed SQLite FTS5 database for sub-millisecond (&le;1ms) lookup of verified idioms, blessings, and civic terms.<br><br>
+              <strong>Tier 2:</strong> CTranslate2 INT8 NLLB-200 neural machine translation for open-ended, complex sentences.
             </p>
           </div>
           <div class="mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
             <span>Lookup: &le;1ms</span>
-            <span>NMT: ~210ms</span>
+            <span>NMT: ~210–350ms</span>
           </div>
         </div>
 
@@ -715,7 +715,7 @@
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Natural Local Voice Synthesis (TTS)</h3>
             <p class="text-stone-300 text-sm leading-relaxed mb-6">
-              Robotic computer voices cause confusion in rural areas. LISAN generates expressive, warm, and natural vocal inflections calibrated to authentic Amharic, Afaan Oromo, and Somali prosody.
+              Clear, natural speech synthesis is essential for effortless spoken dialogue. LISAN generates expressive vocal inflections calibrated to authentic Amharic, Afaan Oromo, Tigrinya, and Somali prosody using 16kHz VITS neural vocoders.
             </p>
 
             <div class="flex items-center gap-3">
@@ -756,30 +756,38 @@
       </div>
 
       <!-- Benchmark Stats Cards -->
-      <div class="grid sm:grid-cols-3 gap-6 mb-12">
+      <div class="grid sm:grid-cols-3 gap-6 mb-8">
         <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
           <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            32.4 <span class="text-terracotta text-2xl font-sans font-normal">BLEU</span>
+            41.2 <span class="text-terracotta text-2xl font-sans font-normal">chrF++</span>
           </div>
-          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ English</div>
-          <p class="text-stone-500 text-xs mt-1">+4.2 BLEU improvement over vanilla NLLB 600M baseline.</p>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ English (HornMT)</div>
+          <p class="text-stone-500 text-xs mt-1">Character n-gram F-score evaluated on gold multi-parallel test sets.</p>
         </div>
 
         <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
           <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            29.8 <span class="text-terracotta text-2xl font-sans font-normal">BLEU</span>
+            113,726 <span class="text-terracotta text-2xl font-sans font-normal">Pairs</span>
           </div>
-          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ Afaan Oromo</div>
-          <p class="text-stone-500 text-xs mt-1">Cross-regional pair fine-tuned with 68,000+ domain pairs.</p>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">20 Parallel Language Pairs</div>
+          <p class="text-stone-500 text-xs mt-1">Stratified bitext across Amharic, Oromo, Tigrinya, Somali, and English.</p>
         </div>
 
         <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
           <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            315 <span class="text-emerald-600 text-2xl font-sans font-normal">ms</span>
+            57.3 <span class="text-emerald-600 text-2xl font-sans font-normal">MB</span>
           </div>
-          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">End-to-End Latency</div>
-          <p class="text-stone-500 text-xs mt-1">Full ASR + Repair + Translation + Voice Synthesis on device.</p>
+          <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Indexed SQLite Memory</div>
+          <p class="text-stone-500 text-xs mt-1">&le;1ms instant lookup for everyday idioms, clinic terms & greetings.</p>
         </div>
+      </div>
+
+      <!-- Grounded Technical Context Note -->
+      <div class="p-4 rounded-2xl bg-ambermist-100/70 border border-ambermist-200/80 text-xs text-stone-600 mb-10 max-w-3xl mx-auto flex items-start gap-3">
+        <i data-lucide="info" class="w-4 h-4 text-terracotta mt-0.5 shrink-0"></i>
+        <span>
+          <strong>Why chrF++ over word BLEU?</strong> Agglutinative languages (Afaan Oromoo) and root-pattern Semitic languages (Amharic & Tigrinya) attach rich grammatical affixes directly to word stems. Standard word-level BLEU artificially penalizes valid inflections; character n-gram F-score (chrF++) provides a far more accurate measure of true linguistic comprehension.
+        </span>
       </div>
 
       <!-- Comparison Table -->
@@ -790,8 +798,8 @@
               <th class="px-6 py-4">Engine / Architecture</th>
               <th class="px-6 py-4">Offline Capable</th>
               <th class="px-6 py-4">Memory Footprint</th>
-              <th class="px-6 py-4">Speech Repair</th>
-              <th class="px-6 py-4">Avg Latency</th>
+              <th class="px-6 py-4">Speech Normalizer</th>
+              <th class="px-6 py-4">Inference Latency</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-stone-100 font-medium">
@@ -800,23 +808,23 @@
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span> LISAN (Our System)
               </td>
               <td class="px-6 py-4 text-emerald-600 font-semibold">100% Yes</td>
-              <td class="px-6 py-4 text-stone-900">~640 MB (INT8)</td>
-              <td class="px-6 py-4 text-emerald-600">Automated Healer</td>
-              <td class="px-6 py-4 text-stone-900 font-bold">~315 ms</td>
+              <td class="px-6 py-4 text-stone-900">~640 MB (INT8 ONNX)</td>
+              <td class="px-6 py-4 text-emerald-600">Rule-Based Normalizer</td>
+              <td class="px-6 py-4 text-stone-900 font-bold">&le;1ms (TM) / ~315ms (NMT)</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-stone-700">Commercial Cloud API (Google/Azure)</td>
-              <td class="px-6 py-4 text-rose-500">No (Requires 4G)</td>
-              <td class="px-6 py-4 text-stone-500">Cloud Only</td>
-              <td class="px-6 py-4 text-stone-500">None</td>
-              <td class="px-6 py-4 text-stone-500">1,800+ ms</td>
+              <td class="px-6 py-4 text-rose-500">No (Requires 4G/WiFi)</td>
+              <td class="px-6 py-4 text-stone-500">0 MB (Cloud-only)</td>
+              <td class="px-6 py-4 text-stone-500">Standard Cloud ASR</td>
+              <td class="px-6 py-4 text-stone-500">~1,800+ ms (Network RTT)</td>
             </tr>
             <tr>
-              <td class="px-6 py-4 text-stone-700">Vanilla NLLB-200 (FP32)</td>
-              <td class="px-6 py-4 text-amber-600">Heavy (Needs GPU)</td>
+              <td class="px-6 py-4 text-stone-700">Vanilla NLLB-200 (PyTorch FP32)</td>
+              <td class="px-6 py-4 text-amber-600">Heavy (Needs 4GB+ RAM / GPU)</td>
               <td class="px-6 py-4 text-stone-500">2.4 GB</td>
               <td class="px-6 py-4 text-stone-500">None</td>
-              <td class="px-6 py-4 text-stone-500">1,200 ms</td>
+              <td class="px-6 py-4 text-stone-500">~1,200 ms (CPU)</td>
             </tr>
           </tbody>
         </table>
