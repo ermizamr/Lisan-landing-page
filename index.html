@@ -28,10 +28,10 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts: Editorial Serif + Modern Clean Sans + Noto Sans Ethiopic -->
+  <!-- Google Fonts: Editorial Serif + Plus Jakarta Sans + Noto Sans Ethiopic + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Ethiopic:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -41,9 +41,10 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans Ethiopic"', 'system-ui', 'sans-serif'],
             serif: ['"Instrument Serif"', 'Georgia', 'serif'],
             ethiopic: ['"Noto Sans Ethiopic"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
           },
           colors: {
             terracotta: {
@@ -245,55 +246,57 @@
         </a>
       </div>
 
-      <!-- Supported Languages - Automatic Infinite Horizontal Scroll -->
-      <div class="marquee-wrapper w-full max-w-full sm:max-w-3xl mx-auto py-2 min-w-0 mask-fade-edges">
-        <div class="marquee-track flex items-center text-xs sm:text-sm text-stone-800 select-none">
-          <!-- Marquee Group 1 -->
-          <div class="flex items-center shrink-0">
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">አማርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Amharic</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Afaan Oromoo</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">ትግርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Tigrinya</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Soomaali</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">English</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">አማርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Amharic</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Afaan Oromoo</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">ትግርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Tigrinya</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Soomaali</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">English</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-          </div>
+      <!-- Supported Languages - Infinite Horizontal Scroll on Crisp White Capsule -->
+      <div class="w-full max-w-full sm:max-w-2xl mx-auto px-4 min-w-0">
+        <div class="marquee-wrapper w-full bg-white/95 backdrop-blur-md rounded-full border border-white shadow-sm py-2 px-3 mask-fade-edges">
+          <div class="marquee-track flex items-center text-xs sm:text-sm text-stone-900 select-none">
+            <!-- Marquee Group 1 -->
+            <div class="flex items-center shrink-0">
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">አማርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Amharic</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Afaan Oromoo</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">ትግርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Tigrinya</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Soomaali</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">English</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">አማርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Amharic</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Afaan Oromoo</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">ትግርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Tigrinya</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Soomaali</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">English</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+            </div>
 
-          <!-- Marquee Group 2 (Exact Duplicate for seamless infinite loop) -->
-          <div class="flex items-center shrink-0" aria-hidden="true">
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">አማርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Amharic</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Afaan Oromoo</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">ትግርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Tigrinya</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Soomaali</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">English</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">አማርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Amharic</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Afaan Oromoo</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-ethiopic font-semibold text-stone-900 tracking-wide">ትግርኛ <span class="font-serif italic font-normal text-stone-600 text-xs ml-0.5">Tigrinya</span></span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">Soomaali</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
-            <span class="font-medium text-stone-900">English</span>
-            <span class="text-stone-400/70 font-light mx-3.5 sm:mx-5 select-none">|</span>
+            <!-- Marquee Group 2 (Exact Duplicate for seamless infinite loop) -->
+            <div class="flex items-center shrink-0" aria-hidden="true">
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">አማርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Amharic</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Afaan Oromoo</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">ትግርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Tigrinya</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Soomaali</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">English</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">አማርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Amharic</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Afaan Oromoo</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-ethiopic font-semibold text-stone-950 tracking-wide">ትግርኛ <span class="font-sans text-stone-500 font-normal text-[11px] ml-0.5">Tigrinya</span></span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">Soomaali</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+              <span class="font-medium text-stone-950">English</span>
+              <span class="text-stone-300 font-light mx-4 select-none">|</span>
+            </div>
           </div>
         </div>
       </div>
@@ -397,7 +400,7 @@
             </li>
             <li class="flex items-start gap-3">
               <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
-              <span><strong>Culturally authentic:</strong> Preserves healing blessings (<em>“እግዜር ይማርህ”</em> $\leftrightarrow$ <em>“fayyuu kee haa ta'u”</em>) and elders’ honorifics.</span>
+              <span><strong>Culturally authentic:</strong> Preserves healing blessings (<em class="font-ethiopic">“እግዜር ይማርህ”</em> ↔ <em>“fayyuu kee haa ta'u”</em>) and elders’ honorifics.</span>
             </li>
             <li class="flex items-start gap-3">
               <i data-lucide="check" class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0"></i>
@@ -645,9 +648,12 @@
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Clinics & Healthcare</h3>
           <p class="text-xs text-stone-500 mb-4">Accurate medical triage between physicians and patients across language borders.</p>
-          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
-            <div class="text-stone-800 font-ethiopic">"እግዜር ይማርህ"</div>
-            <div class="text-terracotta-600">➔ "Fayyuu kee haa ta'u"</div>
+          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+            <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"እግዜር ይማርህ"</div>
+            <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
+              <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
+              <span>"Fayyuu kee haa ta'u"</span>
+            </div>
             <div class="text-[11px] text-stone-400">Preserves traditional healing prayers</div>
           </div>
         </div>
@@ -662,9 +668,12 @@
             </div>
             <h3 class="text-base font-bold text-stone-900 mb-1.5">Kebele & Public Admin</h3>
             <p class="text-xs text-stone-500 mb-4">Civil registration, birth certificates, and ID issuance without translators on staff.</p>
-            <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
-              <div class="text-stone-800 font-ethiopic">"የመኖሪያ መታወቂያ ለማደስ"</div>
-              <div class="text-terracotta-600">➔ "Waraqaa eenyummaa haaromsuuf"</div>
+            <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+              <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"የመኖሪያ መታወቂያ ለማደስ"</div>
+              <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
+                <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
+                <span>"Waraqaa eenyummaa haaromsuuf"</span>
+              </div>
               <div class="text-[11px] text-stone-400">Accurate municipal terminology</div>
             </div>
           </div>
@@ -677,9 +686,12 @@
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Merkato & Commerce</h3>
           <p class="text-xs text-stone-500 mb-4">Haggling, agricultural wholesale trade, and goods transactions in bustling noise.</p>
-          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
-            <div class="text-stone-800 font-ethiopic">"ዋጋውን ቀንስልኝ እባክህ"</div>
-            <div class="text-terracotta-600">➔ "Gatiisaa naaf hir'isi mee"</div>
+          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+            <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"ዋጋውን ቀንስልኝ እባክህ"</div>
+            <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
+              <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
+              <span>"Gatiisaa naaf hir'isi mee"</span>
+            </div>
             <div class="text-[11px] text-stone-400">Respects conversational bargaining</div>
           </div>
         </div>
@@ -691,9 +703,12 @@
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Banking & Telebirr</h3>
           <p class="text-xs text-stone-500 mb-4">Remittance claims, microloans, and mobile money transactions made clear.</p>
-          <div class="p-3 rounded-xl bg-stone-50 text-xs space-y-1.5 font-medium border border-stone-100">
-            <div class="text-stone-800 font-ethiopic">"ገንዘብ ማስተላለፍ እፈልጋለሁ"</div>
-            <div class="text-terracotta-600">➔ "Mallaqa erguun barbaada"</div>
+          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+            <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"ገንዘብ ማስተላለፍ እፈልጋለሁ"</div>
+            <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
+              <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
+              <span>"Mallaqa erguun barbaada"</span>
+            </div>
             <div class="text-[11px] text-stone-400">Financial terminology verified</div>
           </div>
         </div>
@@ -741,12 +756,16 @@
             </p>
             
             <!-- Code / Pipeline Flow Visualization -->
-            <div class="p-4 rounded-2xl bg-black/40 border border-white/5 font-mono text-xs text-stone-300 space-y-2">
-              <div class="flex items-center gap-2 text-stone-400">
-                <span class="text-rose-400">● Raw Mic:</span> "ማን... ማንት ነው እንድ... ወንድሜ" (Disfluent / Glitchy)
+            <div class="p-4 rounded-2xl bg-black/50 border border-white/10 font-mono text-xs text-stone-300 space-y-2.5">
+              <div class="flex flex-wrap items-baseline gap-2">
+                <span class="text-rose-400 font-semibold">● Raw Mic:</span>
+                <span class="font-ethiopic text-sm text-stone-300">"ማን... ማንት ነው እንድ... ወንድሜ"</span>
+                <span class="text-[11px] text-stone-500">(Disfluent / Glitchy)</span>
               </div>
-              <div class="flex items-center gap-2 text-emerald-400">
-                <span class="text-emerald-400">✔ Healed:</span> "ማን ነው ወንድሜ" (Clean Grammatical Amharic)
+              <div class="flex flex-wrap items-baseline gap-2">
+                <span class="text-emerald-400 font-semibold">✔ Healed:</span>
+                <span class="font-ethiopic text-sm text-white font-semibold">"ማን ነው ወንድሜ"</span>
+                <span class="text-[11px] text-emerald-300/80">(Clean Grammatical Amharic)</span>
               </div>
             </div>
           </div>
