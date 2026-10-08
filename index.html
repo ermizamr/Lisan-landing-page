@@ -169,8 +169,14 @@
     .bar:nth-child(4) { animation-delay: 0.2s; }
     .bar:nth-child(5) { animation-delay: 0.4s; }
     .bar:nth-child(6) { animation-delay: 0.15s; }
-    .bar:nth-child(7) { animation-delay: 0.35s; }
-    .bar:nth-child(8) { animation-delay: 0.25s; }
+    /* No-Scrollbar Utility for seamless horizontal mobile swiping */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 
@@ -179,21 +185,21 @@
   <!-- ============================================================== -->
   <!-- 1. NAVIGATION BAR (Floating & Translucent)                     -->
   <!-- ============================================================== -->
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-8 pt-4">
-    <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-3.5 rounded-full glass-pill shadow-sm shadow-stone-900/5">
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-3 sm:px-8 pt-3 sm:pt-4">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full glass-pill shadow-sm shadow-stone-900/5">
       
       <!-- Brand Logo -->
-      <a href="#" class="flex items-center gap-2.5 group">
-        <div class="w-8 h-8 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-sm tracking-wider transition-transform group-hover:scale-105">
+      <a href="#" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-xs sm:text-sm tracking-wider transition-transform group-hover:scale-105">
           ል
         </div>
-        <div class="flex items-baseline gap-1.5">
-          <span class="font-bold text-lg tracking-tight text-stone-900">LISAN</span>
-          <span class="font-ethiopic text-stone-500 text-sm font-medium">ልሳን</span>
+        <div class="flex items-baseline gap-1 sm:gap-1.5">
+          <span class="font-bold text-base sm:text-lg tracking-tight text-stone-900">LISAN</span>
+          <span class="font-ethiopic text-stone-500 text-xs sm:text-sm font-medium">ልሳን</span>
         </div>
       </a>
 
-      <!-- Center Links -->
+      <!-- Center Links (Desktop) -->
       <div class="hidden md:flex items-center gap-8 text-[14px] font-medium text-stone-600">
         <a href="#experience" class="hover:text-stone-950 transition-colors">Experience</a>
         <a href="#scenarios" class="hover:text-stone-950 transition-colors">Field Scenarios</a>
@@ -205,49 +211,95 @@
         </a>
       </div>
 
-      <!-- Right Action CTA -->
-      <div class="flex items-center gap-3">
-        <a href="#download" class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-medium tracking-wide shadow-sm hover:shadow transition-all duration-200">
-          Get Android App
+      <!-- Right Action CTA & Mobile Hamburger -->
+      <div class="flex items-center gap-2">
+        <a href="#download" class="inline-flex items-center justify-center px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-medium tracking-wide shadow-sm hover:shadow transition-all duration-200">
+          <span class="inline">Get Android App</span>
         </a>
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle Navigation Menu" class="md:hidden w-8 h-8 rounded-full bg-stone-900/5 hover:bg-stone-900/10 flex items-center justify-center text-stone-800 transition-colors focus:outline-none">
+          <i data-lucide="menu" id="menuOpenIcon" class="w-4 h-4"></i>
+          <i data-lucide="x" id="menuCloseIcon" class="w-4 h-4 hidden"></i>
+        </button>
       </div>
     </nav>
+
+    <!-- Mobile Navigation Sheet / Dropdown Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden max-w-6xl mx-auto mt-2 p-3 sm:p-4 rounded-3xl glass-card shadow-2xl border border-white/80 transition-all duration-200">
+      <div class="flex flex-col space-y-1 text-sm font-medium text-stone-700">
+        <a href="#experience" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="volume-2" class="w-4 h-4 text-terracotta"></i>
+            <span>Interactive Demo</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
+        </a>
+        <a href="#scenarios" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="map-pin" class="w-4 h-4 text-amber-600"></i>
+            <span>Field Scenarios</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
+        </a>
+        <a href="#technology" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="cpu" class="w-4 h-4 text-blue-600"></i>
+            <span>On-Device AI</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
+        </a>
+        <a href="#benchmarks" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-600"></i>
+            <span>HornMT Benchmarks</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
+        </a>
+        <a href="https://github.com/ermizamr/LISAN" target="_blank" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="github" class="w-4 h-4 text-stone-800"></i>
+            <span>GitHub Repository</span>
+          </span>
+          <i data-lucide="external-link" class="w-4 h-4 text-stone-400"></i>
+        </a>
+      </div>
+    </div>
   </header>
 
   <!-- ============================================================== -->
   <!-- 2. HERO SECTION (Atmospheric Mist & Mountain Landscape)         -->
   <!-- ============================================================== -->
-  <section class="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-32 pb-16 px-4 sm:px-6 hero-bg overflow-hidden">
+  <section class="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-between pt-28 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 hero-bg overflow-hidden">
     <div class="absolute inset-0 hero-glow pointer-events-none"></div>
 
     <!-- Main Hero Content -->
     <div class="relative z-10 w-full max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center items-center min-w-0">
       
       <!-- Hero Headline with Warm Editorial Italic Serif -->
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-light text-stone-950 tracking-tight leading-[1.08] max-w-3xl mb-6">
+      <h1 class="text-3xl sm:text-5xl md:text-7xl font-light text-stone-950 tracking-tight leading-[1.12] sm:leading-[1.08] max-w-3xl mb-5 sm:mb-6">
         The easiest way to understand <br class="hidden sm:inline">
-        <span class="font-serif italic font-normal text-terracotta text-5xl sm:text-7xl md:text-8xl">each other.</span>
+        <span class="font-serif italic font-normal text-terracotta text-4xl sm:text-6xl md:text-8xl inline-block">each other.</span>
       </h1>
 
       <!-- Subheadline -->
-      <p class="text-base sm:text-lg md:text-xl text-stone-700 max-w-2xl font-normal leading-relaxed mb-10 text-balance">
+      <p class="text-sm sm:text-lg md:text-xl text-stone-700 max-w-2xl font-normal leading-relaxed mb-8 sm:mb-10 text-balance px-2 sm:px-0">
         Real-time voice-to-voice conversation across the Horn of Africa. Powered by on-device AI running directly on low-cost smartphones—without needing internet, cellular data, or cloud servers.
       </p>
 
       <!-- Primary Action Row -->
-      <div class="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md justify-center mb-12">
-        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm shadow-lg shadow-stone-900/15 hover:shadow-xl transition-all">
+      <div class="flex flex-col sm:flex-row items-center gap-3 w-full max-w-xs sm:max-w-md justify-center mb-10 sm:mb-12">
+        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm shadow-lg shadow-stone-900/15 hover:shadow-xl transition-all">
           <i data-lucide="download" class="w-4 h-4"></i>
           <span>Download Android APK</span>
         </a>
-        <a href="#experience" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full glass-pill hover:bg-white/80 text-stone-800 font-medium text-sm transition-all border border-stone-300/60">
+        <a href="#experience" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full glass-pill hover:bg-white/80 text-stone-800 font-medium text-sm transition-all border border-stone-300/60">
           <i data-lucide="volume-2" class="w-4 h-4 text-terracotta"></i>
           <span>Listen to Live Demo</span>
         </a>
       </div>
 
       <!-- Supported Languages - Infinite Horizontal Scroll on Crisp White Capsule -->
-      <div class="w-full max-w-full sm:max-w-2xl mx-auto px-4 min-w-0">
+      <div class="w-full max-w-full sm:max-w-2xl mx-auto px-2 sm:px-4 min-w-0">
         <div class="marquee-wrapper w-full bg-white/95 backdrop-blur-md rounded-full border border-white shadow-sm py-2 px-3 mask-fade-edges">
           <div class="marquee-track flex items-center text-xs sm:text-sm text-stone-900 select-none">
             <!-- Marquee Group 1 -->
@@ -304,25 +356,25 @@
     </div>
 
     <!-- Bottom Social Proof & Trust Ecosystem Bar (Over Dark Mountain Slope) -->
-    <div class="relative z-10 max-w-5xl mx-auto w-full pt-16 text-center">
-      <p class="text-xs uppercase tracking-widest text-stone-300 font-medium mb-6">
+    <div class="relative z-10 max-w-5xl mx-auto w-full pt-10 sm:pt-16 text-center">
+      <p class="text-[11px] sm:text-xs uppercase tracking-widest text-stone-300 font-medium mb-4 sm:mb-6">
         Built upon premier African NLP & Open-Source Speech Research
       </p>
-      <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all duration-300 text-stone-300 text-xs sm:text-sm font-semibold tracking-wider">
-        <span class="flex items-center gap-2 hover:text-white transition-colors">
-          <i data-lucide="layers" class="w-4 h-4 text-terracotta-200"></i> HornMT Corpus
+      <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-x-4 gap-y-3 sm:gap-10 sm:gap-14 opacity-80 grayscale hover:grayscale-0 transition-all duration-300 text-stone-300 text-xs sm:text-sm font-semibold tracking-wider max-w-xs sm:max-w-none mx-auto">
+        <span class="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 hover:text-white transition-colors">
+          <i data-lucide="layers" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-terracotta-200"></i> HornMT Corpus
         </span>
-        <span class="flex items-center gap-2 hover:text-white transition-colors">
-          <i data-lucide="cpu" class="w-4 h-4 text-amber-200"></i> Meta NLLB-200
+        <span class="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 hover:text-white transition-colors">
+          <i data-lucide="cpu" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200"></i> Meta NLLB-200
         </span>
-        <span class="flex items-center gap-2 hover:text-white transition-colors">
-          <i data-lucide="zap" class="w-4 h-4 text-emerald-300"></i> ONNX Runtime INT8
+        <span class="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 hover:text-white transition-colors">
+          <i data-lucide="zap" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300"></i> ONNX Runtime
         </span>
-        <span class="flex items-center gap-2 hover:text-white transition-colors">
-          <i data-lucide="mic" class="w-4 h-4 text-orange-200"></i> Mozilla Common Voice
+        <span class="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 hover:text-white transition-colors">
+          <i data-lucide="mic" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-200"></i> Common Voice
         </span>
-        <span class="flex items-center gap-2 hover:text-white transition-colors">
-          <i data-lucide="smartphone" class="w-4 h-4 text-blue-200"></i> Flutter Native
+        <span class="col-span-2 sm:col-span-1 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 hover:text-white transition-colors">
+          <i data-lucide="smartphone" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200"></i> Flutter Native
         </span>
       </div>
     </div>
@@ -332,24 +384,24 @@
   <!-- ============================================================== -->
   <!-- 3. THE PROBLEM & THE OFFLINE BREAKTHROUGH                      -->
   <!-- ============================================================== -->
-  <section class="py-24 px-4 sm:px-6 bg-[#FAF8F5] relative overflow-hidden">
+  <section class="py-16 sm:py-24 px-4 sm:px-6 bg-[#FAF8F5] relative overflow-hidden">
     <div class="max-w-5xl mx-auto relative z-10">
       
-      <div class="text-center max-w-2xl mx-auto mb-16">
+      <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
         <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Why Offline Matters</span>
-        <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+        <h2 class="text-2xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
           Cloud translation fails when you need it <span class="font-serif italic text-terracotta">most.</span>
         </h2>
-        <p class="text-stone-600 mt-4 leading-relaxed">
+        <p class="text-stone-600 mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed">
           In rural clinics, border posts, and bustling outdoor markets across the Horn of Africa, mobile data is expensive, spotty, or completely unavailable. LISAN is engineered from the ground up to run fully offline without needing cloud servers.
         </p>
       </div>
 
       <!-- Comparison Grid: Cloud vs LISAN -->
-      <div class="grid md:grid-cols-2 gap-8">
+      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
         
         <!-- Traditional Cloud Translators Card -->
-        <div class="p-8 rounded-3xl bg-white border border-stone-200 shadow-sm">
+        <div class="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 shadow-sm">
           <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mb-6">
             <i data-lucide="wifi-off" class="w-5 h-5"></i>
           </div>
@@ -376,7 +428,7 @@
         </div>
 
         <!-- LISAN Offline First Card -->
-        <div class="p-8 rounded-3xl bg-stone-900 text-white shadow-xl relative overflow-hidden">
+        <div class="p-6 sm:p-8 rounded-3xl bg-stone-900 text-white shadow-xl relative overflow-hidden">
           <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-terracotta/20 rounded-full blur-3xl pointer-events-none"></div>
           <div class="relative z-10">
           <div class="w-10 h-10 rounded-full bg-terracotta text-white flex items-center justify-center mb-6">
@@ -414,58 +466,58 @@
   <!-- ============================================================== -->
   <!-- 4. INTERACTIVE CONVERSATION SHOWCASE (Real Audio + Waveform)   -->
   <!-- ============================================================== -->
-  <section id="experience" class="py-24 px-4 sm:px-6 bg-[#F3EFEA] border-y border-stone-200/80 relative">
+  <section id="experience" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#F3EFEA] border-y border-stone-200/80 relative scroll-mt-16">
     <div class="max-w-5xl mx-auto">
       
-      <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
         <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Interactive Experience</span>
-        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-stone-900 mt-2">
+        <h2 class="text-2xl sm:text-5xl font-light tracking-tight text-stone-900 mt-2">
           Hear the <span class="font-serif italic text-terracotta">difference.</span>
         </h2>
-        <p class="text-stone-600 mt-3 text-base">
+        <p class="text-stone-600 mt-2 sm:mt-3 text-sm sm:text-base">
           Click below to play actual real-world recorded speech, observe LISAN’s automated speech repair healer, and listen to the synthesized translated speech.
         </p>
       </div>
 
       <!-- Interactive Player Card -->
-      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl shadow-stone-900/5 max-w-4xl mx-auto">
+      <div class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-10 shadow-xl shadow-stone-900/5 max-w-4xl mx-auto">
         
-        <!-- Scenario Switcher Pills -->
-        <div class="flex flex-wrap items-center justify-center gap-2 mb-8" id="demoTabs">
-          <button onclick="switchDemo(0)" id="tab-0" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm">
+        <!-- Scenario Switcher Pills with horizontal swipe on mobile -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 sm:pb-0 px-1 sm:px-0 sm:justify-center -mx-1 sm:mx-0 snap-x mb-6 sm:mb-8" id="demoTabs">
+          <button onclick="switchDemo(0)" id="tab-0" class="shrink-0 snap-center px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm whitespace-nowrap">
             🏥 Clinic Consultation (Amharic ➔ Oromo)
           </button>
-          <button onclick="switchDemo(1)" id="tab-1" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200">
+          <button onclick="switchDemo(1)" id="tab-1" class="shrink-0 snap-center px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200 whitespace-nowrap">
             🛒 Market Bargaining (Oromo ➔ Amharic)
           </button>
-          <button onclick="switchDemo(2)" id="tab-2" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200">
+          <button onclick="switchDemo(2)" id="tab-2" class="shrink-0 snap-center px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200 whitespace-nowrap">
             🏛️ Kebele ID Office (Tigrinya ➔ English)
           </button>
         </div>
 
         <!-- Split-Screen Conversation View -->
-        <div class="grid md:grid-cols-2 gap-6 items-stretch">
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
           
           <!-- Speaker 1 (Source Input) -->
-          <div class="p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
+          <div class="p-4 sm:p-6 rounded-2xl bg-white border border-stone-200 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5">
-                  <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
                   <span id="speaker1-lang" class="text-xs font-bold uppercase tracking-wider text-stone-600">Amharic (አማርኛ)</span>
                 </div>
-                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-600">Original Voice</span>
+                <span class="text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded bg-stone-100 text-stone-600">Original Voice</span>
               </div>
 
               <!-- Audio Player Button & Waveform -->
-              <div class="p-4 rounded-xl bg-stone-50 border border-stone-200/80 mb-4 flex items-center gap-4">
-                <button id="playBtn1" onclick="playAudio('audio1', 'playBtn1', 'wave1')" class="w-12 h-12 rounded-full bg-stone-900 hover:bg-stone-800 text-white flex items-center justify-center shrink-0 shadow transition-all">
-                  <i data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+              <div class="p-3 sm:p-4 rounded-xl bg-stone-50 border border-stone-200/80 mb-4 flex items-center gap-3 sm:gap-4">
+                <button id="playBtn1" onclick="playAudio('audio1', 'playBtn1', 'wave1')" class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-stone-900 hover:bg-stone-800 text-white flex items-center justify-center shrink-0 shadow transition-all">
+                  <i data-lucide="play" class="w-4 h-4 sm:w-5 sm:h-5 ml-0.5"></i>
                 </button>
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between text-xs text-stone-500 mb-1.5">
-                    <span id="audio1-label">Spoken Audio Clip</span>
-                    <span id="audio1-time">0:03</span>
+                    <span id="audio1-label" class="truncate pr-2">Spoken Audio Clip</span>
+                    <span id="audio1-time" class="shrink-0 font-mono">0:03</span>
                   </div>
                   <!-- Animated Waveform Bars -->
                   <div id="wave1" class="flex items-center gap-1 h-6">
@@ -485,43 +537,43 @@
 
               <!-- Spoken Transcription -->
               <div class="space-y-2">
-                <div class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Spoken Words</div>
-                <p id="speaker1-text" class="text-lg font-medium font-ethiopic text-stone-900 leading-snug">
+                <div class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">Spoken Words</div>
+                <p id="speaker1-text" class="text-base sm:text-lg font-medium font-ethiopic text-stone-900 leading-snug">
                   "የት አካባቢ ያመዎታል? የደም ምርመራ ያስፈልግዎታል።"
                 </p>
-                <div id="speaker1-repair" class="mt-2 text-xs text-emerald-700 bg-emerald-50 rounded-lg p-2 flex items-center gap-2 border border-emerald-100">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
+                <div id="speaker1-repair" class="mt-2 text-xs text-emerald-700 bg-emerald-50 rounded-lg p-2.5 flex items-start gap-2 border border-emerald-100">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i>
                   <span><strong>Speech Healer:</strong> Filtered mic noise & normalized morphological verb suffix.</span>
                 </div>
               </div>
             </div>
             
-            <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-400">
+            <div class="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-stone-100 flex items-center justify-between text-[11px] sm:text-xs text-stone-400">
               <span>Wav2Vec2 / Hohe ASR</span>
               <span>Latency: 142ms</span>
             </div>
           </div>
 
           <!-- Speaker 2 (Translated Output) -->
-          <div class="p-6 rounded-2xl bg-ambermist-50 border border-ambermist-200/80 flex flex-col justify-between">
+          <div class="p-4 sm:p-6 rounded-2xl bg-ambermist-50 border border-ambermist-200/80 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5">
-                  <span class="w-3 h-3 rounded-full bg-terracotta"></span>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-terracotta"></span>
                   <span id="speaker2-lang" class="text-xs font-bold uppercase tracking-wider text-terracotta-700">Afaan Oromoo</span>
                 </div>
-                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-terracotta-100 text-terracotta-700">Instant Speech Output</span>
+                <span class="text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded bg-terracotta-100 text-terracotta-700">Instant Speech Output</span>
               </div>
 
               <!-- Audio Player Button & Waveform -->
-              <div class="p-4 rounded-xl bg-white/90 border border-ambermist-200 mb-4 flex items-center gap-4">
-                <button id="playBtn2" onclick="playAudio('audio2', 'playBtn2', 'wave2')" class="w-12 h-12 rounded-full bg-terracotta hover:bg-terracotta-600 text-white flex items-center justify-center shrink-0 shadow transition-all">
-                  <i data-lucide="volume-2" class="w-5 h-5"></i>
+              <div class="p-3 sm:p-4 rounded-xl bg-white/90 border border-ambermist-200 mb-4 flex items-center gap-3 sm:gap-4">
+                <button id="playBtn2" onclick="playAudio('audio2', 'playBtn2', 'wave2')" class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-terracotta hover:bg-terracotta-600 text-white flex items-center justify-center shrink-0 shadow transition-all">
+                  <i data-lucide="volume-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                 </button>
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between text-xs text-stone-500 mb-1.5">
-                    <span id="audio2-label">Synthesized Native Voice</span>
-                    <span id="audio2-time">0:03</span>
+                    <span id="audio2-label" class="truncate pr-2">Synthesized Native Voice</span>
+                    <span id="audio2-time" class="shrink-0 font-mono">0:03</span>
                   </div>
                   <!-- Animated Waveform Bars -->
                   <div id="wave2" class="flex items-center gap-1 h-6">
@@ -541,17 +593,17 @@
 
               <!-- Translated Text -->
               <div class="space-y-2">
-                <div class="text-xs font-semibold text-terracotta-600 uppercase tracking-wider">Translated Output</div>
-                <p id="speaker2-text" class="text-lg font-medium text-stone-900 leading-snug">
+                <div class="text-[11px] font-semibold text-terracotta-600 uppercase tracking-wider">Translated Output</div>
+                <p id="speaker2-text" class="text-base sm:text-lg font-medium text-stone-900 leading-snug">
                   "Eessa kee si dhukkee? Qorannoo dhiigaa si barbaachisa."
                 </p>
-                <div id="speaker2-meta" class="mt-2 text-xs text-stone-600 bg-white/70 rounded-lg p-2 border border-stone-200/60">
+                <div id="speaker2-meta" class="mt-2 text-xs text-stone-600 bg-white/70 rounded-lg p-2.5 border border-stone-200/60">
                   <span><strong>Cultural Context:</strong> Medical clinical domain pack matched via indexed Translation Memory.</span>
                 </div>
               </div>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-ambermist-200 flex items-center justify-between text-xs text-stone-500">
+            <div class="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-ambermist-200 flex items-center justify-between text-[11px] sm:text-xs text-stone-500">
               <span>CTranslate2 INT8 + MMS-TTS</span>
               <span>Total Latency: 290ms</span>
             </div>
@@ -564,18 +616,20 @@
         <audio id="audio2" src="assets/audio/test_oromo_tts.wav" preload="auto"></audio>
 
         <!-- Mobile App Showcase Spotlight -->
-        <div class="mt-12 pt-10 border-t border-stone-200/80 grid md:grid-cols-12 gap-8 items-center">
-          <div class="md:col-span-7 space-y-4">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta/10 text-terracotta-700 text-xs font-semibold">
-              <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Native Flutter Client
-            </span>
+        <div class="mt-10 sm:mt-12 pt-8 sm:pt-10 border-t border-stone-200/80 grid md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-7 space-y-4 text-center md:text-left">
+            <div class="flex justify-center md:justify-start">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta/10 text-terracotta-700 text-xs font-semibold">
+                <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Native Flutter Client
+              </span>
+            </div>
             <h3 class="text-2xl sm:text-3xl font-light text-stone-900 tracking-tight">
               Designed for true <span class="font-serif italic text-terracotta">face-to-face</span> dialogue.
             </h3>
-            <p class="text-stone-600 text-sm leading-relaxed">
+            <p class="text-stone-600 text-xs sm:text-sm leading-relaxed">
               Place the phone flat on a consultation table or marketplace stall. LISAN’s interface allows two speakers to communicate naturally, displaying real-time transcribed audio waveforms and synthesized native speech at the push of a button.
             </p>
-            <div class="grid grid-cols-2 gap-3 pt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2 text-left">
               <div class="p-3 rounded-xl bg-white border border-stone-200/80 text-xs">
                 <div class="font-bold text-stone-900 mb-0.5">Dual-Direction Mode</div>
                 <div class="text-stone-500">Instant toggle between speaker mic channels</div>
@@ -597,11 +651,11 @@
 
           <div class="md:col-span-5 flex justify-center">
             <!-- Smartphone Device Frame -->
-            <div class="relative w-full max-w-[240px] sm:max-w-[260px] rounded-[40px] p-2.5 bg-stone-900 shadow-2xl shadow-stone-900/30 ring-1 ring-white/20 transform hover:-translate-y-1 transition-transform duration-300">
+            <div class="relative w-full max-w-[220px] sm:max-w-[260px] rounded-[36px] sm:rounded-[40px] p-2 sm:p-2.5 bg-stone-900 shadow-2xl shadow-stone-900/30 ring-1 ring-white/20 transform hover:-translate-y-1 transition-transform duration-300">
               <!-- Top speaker notch -->
-              <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3.5 bg-black rounded-full z-20"></div>
+              <div class="absolute top-3.5 sm:top-4 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-3 sm:h-3.5 bg-black rounded-full z-20"></div>
               <!-- Screen container -->
-              <div class="overflow-hidden rounded-[32px] border border-stone-800 bg-stone-950 aspect-[9/18.5]">
+              <div class="overflow-hidden rounded-[28px] sm:rounded-[32px] border border-stone-800 bg-stone-950 aspect-[9/18.5]">
                 <img src="assets/images/phone_screen_perfect.png" alt="LISAN Flutter App Interface" class="w-full h-full object-cover select-none">
               </div>
             </div>
@@ -617,33 +671,33 @@
   <!-- ============================================================== -->
   <!-- 5. REAL-WORLD FIELD SCENARIOS                                   -->
   <!-- ============================================================== -->
-  <section id="scenarios" class="py-24 px-4 sm:px-6 bg-[#FAF8F5]">
+  <section id="scenarios" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#FAF8F5] scroll-mt-16">
     <div class="max-w-6xl mx-auto">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4 sm:gap-6">
         <div>
           <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Tested in Real Life</span>
-          <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
-            Engineered for the places <br>
+          <h2 class="text-2xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+            Engineered for the places <br class="hidden sm:inline">
             <span class="font-serif italic text-terracotta">where words matter most.</span>
           </h2>
         </div>
-        <p class="text-stone-600 max-w-md text-sm leading-relaxed">
+        <p class="text-stone-600 max-w-md text-xs sm:text-sm leading-relaxed">
           From hospital emergency triage to local municipal Kebele offices, LISAN comes pre-equipped with verified bilingual domain glossaries.
         </p>
       </div>
 
       <!-- 4 Scenarios Cards -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         
         <!-- Scenario 1: Clinic -->
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-            <i data-lucide="stethoscope" class="w-6 h-6"></i>
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="stethoscope" class="w-5 h-5 sm:w-6 sm:h-6"></i>
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Clinics & Healthcare</h3>
           <p class="text-xs text-stone-500 mb-4">Accurate medical triage between physicians and patients across language borders.</p>
-          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+          <div class="p-3 sm:p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
             <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"እግዜር ይማርህ"</div>
             <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
               <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
@@ -654,14 +708,14 @@
         </div>
 
         <!-- Scenario 2: Kebele -->
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group relative overflow-hidden">
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group relative overflow-hidden">
           <div class="relative z-10">
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-              <i data-lucide="landmark" class="w-6 h-6"></i>
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform">
+              <i data-lucide="landmark" class="w-5 h-5 sm:w-6 sm:h-6"></i>
             </div>
             <h3 class="text-base font-bold text-stone-900 mb-1.5">Kebele & Public Admin</h3>
             <p class="text-xs text-stone-500 mb-4">Civil registration, birth certificates, and ID issuance without translators on staff.</p>
-            <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+            <div class="p-3 sm:p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
               <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"የመኖሪያ መታወቂያ ለማደስ"</div>
               <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
                 <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
@@ -673,13 +727,13 @@
         </div>
 
         <!-- Scenario 3: Open Market -->
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
-          <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="shopping-bag" class="w-5 h-5 sm:w-6 sm:h-6"></i>
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Merkato & Commerce</h3>
           <p class="text-xs text-stone-500 mb-4">Haggling, agricultural wholesale trade, and goods transactions in bustling noise.</p>
-          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+          <div class="p-3 sm:p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
             <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"ዋጋውን ቀንስልኝ እባክህ"</div>
             <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
               <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
@@ -690,13 +744,13 @@
         </div>
 
         <!-- Scenario 4: Banking -->
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
-          <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-            <i data-lucide="credit-card" class="w-6 h-6"></i>
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow group">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform">
+            <i data-lucide="credit-card" class="w-5 h-5 sm:w-6 sm:h-6"></i>
           </div>
           <h3 class="text-base font-bold text-stone-900 mb-1.5">Banking & Telebirr</h3>
           <p class="text-xs text-stone-500 mb-4">Remittance claims, microloans, and mobile money transactions made clear.</p>
-          <div class="p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
+          <div class="p-3 sm:p-3.5 rounded-xl bg-stone-50 space-y-2 border border-stone-100">
             <div class="text-stone-900 font-ethiopic text-sm font-semibold tracking-wide">"ገንዘብ ማስተላለፍ እፈልጋለሁ"</div>
             <div class="text-xs font-medium text-terracotta-700 flex items-center gap-1.5">
               <i data-lucide="arrow-right" class="w-3 h-3 text-terracotta shrink-0"></i>
@@ -715,119 +769,119 @@
   <!-- ============================================================== -->
   <!-- 6. OFFLINE TECHNOLOGY BENTO GRID                                -->
   <!-- ============================================================== -->
-  <section id="technology" class="py-24 px-4 sm:px-6 bg-stone-900 text-white relative overflow-hidden">
+  <section id="technology" class="py-16 sm:py-24 px-4 sm:px-6 bg-stone-900 text-white relative overflow-hidden scroll-mt-16">
     <!-- Atmospheric glows -->
     <div class="absolute top-1/4 -left-32 w-96 h-96 bg-terracotta/15 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-10 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="max-w-6xl mx-auto relative z-10">
       
-      <div class="text-center max-w-2xl mx-auto mb-16">
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
         <span class="text-xs uppercase tracking-widest text-terracotta-200 font-bold">Under The Hood</span>
-        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-white mt-2">
-          An entire AI lab, <br>
+        <h2 class="text-2xl sm:text-5xl font-light tracking-tight text-white mt-2">
+          An entire AI lab, <br class="hidden sm:inline">
           <span class="font-serif italic text-amber-200">quantized inside your pocket.</span>
         </h2>
-        <p class="text-stone-400 mt-4 text-sm sm:text-base">
+        <p class="text-stone-400 mt-3 sm:mt-4 text-xs sm:text-base">
           LISAN doesn’t compromise on accuracy. We engineered deep optimization pipelines to squeeze multi-gigabyte models into a compact on-device runtime.
         </p>
       </div>
 
       <!-- Bento Grid -->
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
         
         <!-- Large Card 1: The Speech Repair Healer -->
-        <div class="md:col-span-2 p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+        <div class="md:col-span-2 p-5 sm:p-8 rounded-2xl sm:rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-amber-200 mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-amber-200 mb-5 sm:mb-6">
               <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
               <span>Morphological Speech Normalizer</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Context-Aware Speech Repair & Disfluency Healer</h3>
-            <p class="text-stone-300 text-sm leading-relaxed mb-6">
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Context-Aware Speech Repair & Disfluency Healer</h3>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed mb-5 sm:mb-6">
               Smartphone microphones in the field capture stuttering, dropped syllable endings, and conversational contractions. Our pipeline reconstructs clean grammatical text before passing it to translation.
             </p>
             
             <!-- Code / Pipeline Flow Visualization -->
-            <div class="p-4 rounded-2xl bg-black/50 border border-white/10 font-mono text-xs text-stone-300 space-y-2.5">
-              <div class="flex flex-wrap items-baseline gap-2">
-                <span class="text-rose-400 font-semibold">● Raw Mic:</span>
-                <span class="font-ethiopic text-sm text-stone-300">"ማን... ማንት ነው እንድ... ወንድሜ"</span>
-                <span class="text-[11px] text-stone-500">(Disfluent / Glitchy)</span>
+            <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-black/50 border border-white/10 font-mono text-[11px] sm:text-xs text-stone-300 space-y-2">
+              <div class="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                <span class="text-rose-400 font-semibold shrink-0">● Raw Mic:</span>
+                <span class="font-ethiopic text-xs sm:text-sm text-stone-300">"ማን... ማንት ነው እንድ... ወንድሜ"</span>
+                <span class="text-[10px] sm:text-[11px] text-stone-500">(Disfluent / Glitchy)</span>
               </div>
-              <div class="flex flex-wrap items-baseline gap-2">
-                <span class="text-emerald-400 font-semibold">✔ Healed:</span>
-                <span class="font-ethiopic text-sm text-white font-semibold">"ማን ነው ወንድሜ"</span>
-                <span class="text-[11px] text-emerald-300/80">(Clean Grammatical Amharic)</span>
+              <div class="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                <span class="text-emerald-400 font-semibold shrink-0">✔ Healed:</span>
+                <span class="font-ethiopic text-xs sm:text-sm text-white font-semibold">"ማን ነው ወንድሜ"</span>
+                <span class="text-[10px] sm:text-[11px] text-emerald-300/80">(Clean Grammatical Amharic)</span>
               </div>
             </div>
           </div>
 
-          <div class="mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
+          <div class="mt-6 sm:mt-8 flex flex-wrap items-center justify-between gap-2 text-xs text-stone-400 border-t border-white/10 pt-4">
             <span>Normalizes colloquial contractions & speech artifacts</span>
-            <span>`speech_repair.py`</span>
+            <span class="font-mono text-[11px]">speech_repair.py</span>
           </div>
         </div>
 
         <!-- Card 2: Hybrid Translation Memory -->
-        <div class="p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+        <div class="p-5 sm:p-8 rounded-2xl sm:rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-emerald-300 mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-emerald-300 mb-5 sm:mb-6">
               <i data-lucide="zap" class="w-3.5 h-3.5"></i>
               <span>Tier 1 & Tier 2</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Hybrid Smart Translation</h3>
-            <p class="text-stone-300 text-sm leading-relaxed">
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Hybrid Smart Translation</h3>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed">
               <strong>Tier 1:</strong> 57.3 MB indexed SQLite FTS5 database for sub-millisecond (&le;1ms) lookup of verified idioms, blessings, and civic terms.<br><br>
               <strong>Tier 2:</strong> CTranslate2 INT8 NLLB-200 neural machine translation for open-ended, complex sentences.
             </p>
           </div>
-          <div class="mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
+          <div class="mt-6 sm:mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
             <span>Lookup: &le;1ms</span>
             <span>NMT: ~210–350ms</span>
           </div>
         </div>
 
         <!-- Card 3: ONNX INT8 Quantization -->
-        <div class="p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+        <div class="p-5 sm:p-8 rounded-2xl sm:rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-blue-300 mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-blue-300 mb-5 sm:mb-6">
               <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
               <span>640MB Total Footprint</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">ONNX Mobile Runtime</h3>
-            <p class="text-stone-300 text-sm leading-relaxed">
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">ONNX Mobile Runtime</h3>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed">
               Exported via INT8 dynamic quantization. Runs smoothly on quad-core Android chipsets with 2GB RAM without heating the battery.
             </p>
           </div>
-          <div class="mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
+          <div class="mt-6 sm:mt-8 text-xs text-stone-400 border-t border-white/10 pt-4 flex justify-between">
             <span>Zero server dependency</span>
             <span>Android / iOS</span>
           </div>
         </div>
 
         <!-- Large Card 4: Audio Waveform & Neural Voice Synthesis -->
-        <div class="md:col-span-2 p-8 rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
+        <div class="md:col-span-2 p-5 sm:p-8 rounded-2xl sm:rounded-3xl glass-dark border border-white/10 flex flex-col justify-between">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-orange-300 mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-orange-300 mb-5 sm:mb-6">
               <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
               <span>Meta MMS-TTS & Piper</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Natural Local Voice Synthesis (TTS)</h3>
-            <p class="text-stone-300 text-sm leading-relaxed mb-6">
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Natural Local Voice Synthesis (TTS)</h3>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed mb-5 sm:mb-6">
               Clear, natural speech synthesis is essential for effortless spoken dialogue. LISAN generates expressive vocal inflections calibrated to authentic Amharic, Afaan Oromo, Tigrinya, and Somali prosody using 16kHz VITS neural vocoders.
             </p>
 
-            <div class="flex items-center gap-3">
-              <button onclick="playAudio('audio3', 'playBtn3', 'wave3')" id="playBtn3" class="px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-stone-900 text-xs font-semibold flex items-center gap-2 transition-all">
+            <div class="flex flex-wrap items-center gap-3">
+              <button onclick="playAudio('audio3', 'playBtn3', 'wave3')" id="playBtn3" class="px-4 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-stone-900 text-xs font-semibold flex items-center gap-2 transition-all shadow">
                 <i data-lucide="play" class="w-3.5 h-3.5"></i> Play Afaan Oromo Synthesis
               </button>
-              <span class="text-xs text-stone-400">Sample: `test_oromo_tts.wav`</span>
+              <span class="text-xs text-stone-400 font-mono">Sample: test_oromo_tts.wav</span>
             </div>
             <audio id="audio3" src="assets/audio/test_oromo_tts.wav" preload="none"></audio>
           </div>
 
-          <div class="mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
+          <div class="mt-6 sm:mt-8 flex items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4">
             <span>16kHz Neural Vocoder</span>
             <span>Sub-100ms Synthesis</span>
           </div>
@@ -842,40 +896,40 @@
   <!-- ============================================================== -->
   <!-- 7. BENCHMARKS & HORNMT EVALUATION METRICS                       -->
   <!-- ============================================================== -->
-  <section id="benchmarks" class="py-24 px-4 sm:px-6 bg-[#FAF8F5]">
+  <section id="benchmarks" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#FAF8F5] scroll-mt-16">
     <div class="max-w-5xl mx-auto">
       
-      <div class="text-center max-w-2xl mx-auto mb-16">
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
         <span class="text-xs uppercase tracking-widest text-terracotta font-bold">Standardized Benchmarks</span>
-        <h2 class="text-3xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
+        <h2 class="text-2xl sm:text-4xl font-light tracking-tight text-stone-900 mt-2">
           Validated against <span class="font-serif italic text-terracotta">HornMT</span> reference corpora.
         </h2>
-        <p class="text-stone-600 mt-3 text-sm">
+        <p class="text-stone-600 mt-2 sm:mt-3 text-xs sm:text-sm">
           Evaluated rigorously on standardized parallel test sets across BLEU, chrF++, and conversational accuracy metrics.
         </p>
       </div>
 
       <!-- Benchmark Stats Cards -->
-      <div class="grid sm:grid-cols-3 gap-6 mb-8">
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
-          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            41.2 <span class="text-terracotta text-2xl font-sans font-normal">chrF++</span>
+      <div class="grid sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            41.2 <span class="text-terracotta text-xl sm:text-2xl font-sans font-normal">chrF++</span>
           </div>
           <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Amharic ➔ English (HornMT)</div>
           <p class="text-stone-500 text-xs mt-1">Character n-gram F-score evaluated on gold multi-parallel test sets.</p>
         </div>
 
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
-          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            113,726 <span class="text-terracotta text-2xl font-sans font-normal">Pairs</span>
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            113,726 <span class="text-terracotta text-xl sm:text-2xl font-sans font-normal">Pairs</span>
           </div>
           <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">20 Parallel Language Pairs</div>
           <p class="text-stone-500 text-xs mt-1">Stratified bitext across Amharic, Oromo, Tigrinya, Somali, and English.</p>
         </div>
 
-        <div class="p-6 rounded-3xl bg-white border border-stone-200/80 text-center">
-          <div class="text-4xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
-            57.3 <span class="text-emerald-600 text-2xl font-sans font-normal">MB</span>
+        <div class="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 text-center">
+          <div class="text-3xl sm:text-5xl font-light text-stone-900 tracking-tight font-serif">
+            57.3 <span class="text-emerald-600 text-xl sm:text-2xl font-sans font-normal">MB</span>
           </div>
           <div class="text-xs font-bold text-stone-700 uppercase tracking-wider mt-2">Indexed SQLite Memory</div>
           <p class="text-stone-500 text-xs mt-1">&le;1ms instant lookup for everyday idioms, clinic terms & greetings.</p>
@@ -883,48 +937,54 @@
       </div>
 
       <!-- Grounded Technical Context Note -->
-      <div class="p-4 rounded-2xl bg-ambermist-100/70 border border-ambermist-200/80 text-xs text-stone-600 mb-10 max-w-3xl mx-auto flex items-start gap-3">
+      <div class="p-4 rounded-2xl bg-ambermist-100/70 border border-ambermist-200/80 text-xs text-stone-600 mb-8 sm:mb-10 max-w-3xl mx-auto flex items-start gap-3">
         <i data-lucide="info" class="w-4 h-4 text-terracotta mt-0.5 shrink-0"></i>
         <span>
           <strong>Why chrF++ over word BLEU?</strong> Agglutinative languages (Afaan Oromoo) and root-pattern Semitic languages (Amharic & Tigrinya) attach rich grammatical affixes directly to word stems. Standard word-level BLEU artificially penalizes valid inflections; character n-gram F-score (chrF++) provides a far more accurate measure of true linguistic comprehension.
         </span>
       </div>
 
+      <!-- Mobile Scroll Indicator Hint -->
+      <div class="md:hidden flex items-center justify-end gap-1.5 text-[11px] text-stone-500 mb-2 px-1">
+        <i data-lucide="chevrons-left-right" class="w-3.5 h-3.5 text-terracotta"></i>
+        <span>Scroll table horizontally to compare</span>
+      </div>
+
       <!-- Comparison Table -->
-      <div class="overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-        <table class="w-full text-left text-sm text-stone-600">
-          <thead class="bg-stone-50 text-xs uppercase tracking-wider text-stone-500 border-b border-stone-200">
+      <div class="overflow-x-auto rounded-2xl border border-stone-200 bg-white shadow-xs">
+        <table class="w-full text-left text-xs sm:text-sm text-stone-600 min-w-[620px]">
+          <thead class="bg-stone-50 text-[11px] sm:text-xs uppercase tracking-wider text-stone-500 border-b border-stone-200">
             <tr>
-              <th class="px-6 py-4">Engine / Architecture</th>
-              <th class="px-6 py-4">Offline Capable</th>
-              <th class="px-6 py-4">Memory Footprint</th>
-              <th class="px-6 py-4">Speech Normalizer</th>
-              <th class="px-6 py-4">Inference Latency</th>
+              <th class="px-4 sm:px-6 py-3.5 sm:py-4">Engine / Architecture</th>
+              <th class="px-4 sm:px-6 py-3.5 sm:py-4">Offline Capable</th>
+              <th class="px-4 sm:px-6 py-3.5 sm:py-4">Memory Footprint</th>
+              <th class="px-4 sm:px-6 py-3.5 sm:py-4">Speech Normalizer</th>
+              <th class="px-4 sm:px-6 py-3.5 sm:py-4">Inference Latency</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-stone-100 font-medium">
             <tr class="bg-ambermist-50/50">
-              <td class="px-6 py-4 text-stone-900 font-bold flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> LISAN (Our System)
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-900 font-bold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span> LISAN (Our System)
               </td>
-              <td class="px-6 py-4 text-emerald-600 font-semibold">100% Yes</td>
-              <td class="px-6 py-4 text-stone-900">~640 MB (INT8 ONNX)</td>
-              <td class="px-6 py-4 text-emerald-600">Rule-Based Normalizer</td>
-              <td class="px-6 py-4 text-stone-900 font-bold">&le;1ms (TM) / ~315ms (NMT)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-emerald-600 font-semibold">100% Yes</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-900">~640 MB (INT8 ONNX)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-emerald-600">Rule-Based Normalizer</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-900 font-bold">&le;1ms (TM) / ~315ms (NMT)</td>
             </tr>
             <tr>
-              <td class="px-6 py-4 text-stone-700">Commercial Cloud API (Google/Azure)</td>
-              <td class="px-6 py-4 text-rose-500">No (Requires 4G/WiFi)</td>
-              <td class="px-6 py-4 text-stone-500">0 MB (Cloud-only)</td>
-              <td class="px-6 py-4 text-stone-500">Standard Cloud ASR</td>
-              <td class="px-6 py-4 text-stone-500">~1,800+ ms (Network RTT)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-700">Commercial Cloud API (Google/Azure)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-rose-500">No (Requires 4G/WiFi)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">0 MB (Cloud-only)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">Standard Cloud ASR</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">~1,800+ ms (Network RTT)</td>
             </tr>
             <tr>
-              <td class="px-6 py-4 text-stone-700">Vanilla NLLB-200 (PyTorch FP32)</td>
-              <td class="px-6 py-4 text-amber-600">Heavy (Needs 4GB+ RAM / GPU)</td>
-              <td class="px-6 py-4 text-stone-500">2.4 GB</td>
-              <td class="px-6 py-4 text-stone-500">None</td>
-              <td class="px-6 py-4 text-stone-500">~1,200 ms (CPU)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-700">Vanilla NLLB-200 (PyTorch FP32)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-amber-600">Heavy (Needs 4GB+ RAM)</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">2.4 GB</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">None</td>
+              <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-stone-500">~1,200 ms (CPU)</td>
             </tr>
           </tbody>
         </table>
@@ -937,37 +997,37 @@
   <!-- ============================================================== -->
   <!-- 8. DOWNLOAD & CALL TO ACTION BANNER                             -->
   <!-- ============================================================== -->
-  <section id="download" class="py-24 px-4 sm:px-6 bg-[#EBE5DC] relative overflow-hidden">
-    <div class="max-w-4xl mx-auto rounded-3xl p-8 sm:p-14 bg-stone-900 text-white relative shadow-2xl overflow-hidden">
+  <section id="download" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#EBE5DC] relative overflow-hidden scroll-mt-16">
+    <div class="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl p-6 sm:p-14 bg-stone-900 text-white relative shadow-2xl overflow-hidden">
       <!-- Background subtle atmospheric photo overlay: Highland Landscape -->
       <div class="absolute inset-0 opacity-25 bg-[url('assets/images/hero_landscape.jpg')] bg-cover bg-center mix-blend-luminosity pointer-events-none"></div>
 
       <div class="relative z-10 text-center max-w-2xl mx-auto">
         <span class="text-xs uppercase tracking-widest text-amber-300 font-bold">Get Early Access</span>
-        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-white mt-3 mb-6">
-          Ready to speak without <br>
+        <h2 class="text-2xl sm:text-5xl font-light tracking-tight text-white mt-3 mb-4 sm:mb-6">
+          Ready to speak without <br class="hidden sm:inline">
           <span class="font-serif italic text-amber-200">boundaries?</span>
         </h2>
-        <p class="text-stone-300 text-sm sm:text-base leading-relaxed mb-8">
+        <p class="text-stone-300 text-xs sm:text-base leading-relaxed mb-6 sm:mb-8">
           Download the standalone Android APK or run the open-source backend locally on your workstation. No credit card, no cloud accounts, no tracking.
         </p>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-white text-stone-900 hover:bg-stone-100 font-semibold text-sm shadow-lg transition-all">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-stone-900 hover:bg-stone-100 font-semibold text-xs sm:text-sm shadow-lg transition-all">
             <i data-lucide="download" class="w-4 h-4 text-terracotta"></i>
             <span>Download Android APK (v1.0-beta)</span>
           </a>
-          <a href="https://github.com/ermizamr/LISAN" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all">
+          <a href="https://github.com/ermizamr/LISAN" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm border border-white/20 transition-all">
             <i data-lucide="github" class="w-4 h-4"></i>
             <span>View GitHub Repository</span>
           </a>
         </div>
 
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-stone-400">
-          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Android 8.0+ Compatible</span>
+        <div class="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] sm:text-xs text-stone-400">
+          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Android 8.0+</span>
           <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Apache 2.0 Open Source</span>
-          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Zero Analytics Telemetry</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Zero Telemetry</span>
         </div>
       </div>
     </div>
@@ -977,11 +1037,11 @@
   <!-- ============================================================== -->
   <!-- 9. FOOTER                                                      -->
   <!-- ============================================================== -->
-  <footer class="py-12 px-4 sm:px-6 bg-[#FAF8F5] border-t border-stone-200">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+  <footer class="py-10 sm:py-12 px-4 sm:px-6 bg-[#FAF8F5] border-t border-stone-200">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 text-center md:text-left">
       
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-xs">
+      <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+        <div class="w-7 h-7 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-xs shrink-0">
           ል
         </div>
         <div class="text-sm font-semibold text-stone-800">
@@ -990,12 +1050,15 @@
         <span class="text-stone-400 text-xs">© 2026. All rights reserved.</span>
       </div>
 
-      <div class="flex items-center gap-6 text-xs font-medium text-stone-600">
-        <a href="#experience" class="hover:text-stone-900">Experience</a>
-        <a href="#scenarios" class="hover:text-stone-900">Scenarios</a>
-        <a href="#technology" class="hover:text-stone-900">Architecture</a>
-        <a href="#benchmarks" class="hover:text-stone-900">HornMT Benchmarks</a>
-        <a href="https://github.com/ermizamr/LISAN" target="_blank" class="hover:text-stone-900">GitHub</a>
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-medium text-stone-600">
+        <a href="#experience" class="hover:text-stone-900 transition-colors">Experience</a>
+        <a href="#scenarios" class="hover:text-stone-900 transition-colors">Scenarios</a>
+        <a href="#technology" class="hover:text-stone-900 transition-colors">Architecture</a>
+        <a href="#benchmarks" class="hover:text-stone-900 transition-colors">HornMT Benchmarks</a>
+        <a href="https://github.com/ermizamr/LISAN" target="_blank" class="hover:text-stone-900 transition-colors flex items-center gap-1">
+          <span>GitHub</span>
+          <i data-lucide="external-link" class="w-3 h-3 opacity-60"></i>
+        </a>
       </div>
 
     </div>
@@ -1055,9 +1118,9 @@
       for (let i = 0; i < demos.length; i++) {
         const tab = document.getElementById(`tab-${i}`);
         if (i === index) {
-          tab.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm";
+          tab.className = "shrink-0 snap-center px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-stone-900 text-white shadow-sm whitespace-nowrap";
         } else {
-          tab.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200";
+          tab.className = "shrink-0 snap-center px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-stone-600 hover:text-stone-900 border border-stone-200 whitespace-nowrap";
         }
       }
 
@@ -1141,6 +1204,38 @@
           bar.classList.remove('animate-wave');
         });
       }
+    }
+
+    // Mobile Navigation Menu Toggle & Auto-Close
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const menuOpenIcon = document.getElementById("menuOpenIcon");
+    const menuCloseIcon = document.getElementById("menuCloseIcon");
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener("click", () => {
+        const isHidden = mobileMenu.classList.contains("hidden");
+        if (isHidden) {
+          mobileMenu.classList.remove("hidden");
+          menuOpenIcon.classList.add("hidden");
+          menuCloseIcon.classList.remove("hidden");
+        } else {
+          mobileMenu.classList.add("hidden");
+          menuOpenIcon.classList.remove("hidden");
+          menuCloseIcon.classList.add("hidden");
+        }
+        lucide.createIcons();
+      });
+
+      // Auto-close menu when tapping any navigation link
+      document.querySelectorAll(".mobile-nav-link").forEach(link => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("hidden");
+          menuOpenIcon.classList.remove("hidden");
+          menuCloseIcon.classList.add("hidden");
+          lucide.createIcons();
+        });
+      });
     }
   </script>
 
