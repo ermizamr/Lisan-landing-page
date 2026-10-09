@@ -22,8 +22,8 @@
   <meta name="twitter:description" content="Offline-first smart speech & machine translation for Ethiopian and Horn of Africa languages.">
   <meta name="twitter:image" content="https://lisan.ermizamr.tech/assets/images/phone_screen_perfect.png">
 
-  <!-- Favicon SVG -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22sans-serif%22 font-weight=%22bold%22 fill=%22%23C26D47%22>ል</text></svg>">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/lisan_badge.png">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -190,9 +190,7 @@
       
       <!-- Brand Logo -->
       <a href="#" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-900 text-ambermist-100 flex items-center justify-center font-bold text-xs sm:text-sm tracking-wider transition-transform group-hover:scale-105">
-          ል
-        </div>
+        <img src="assets/images/lisan_badge.png" alt="LISAN Logo" class="w-8 h-8 rounded-full shadow-sm transition-transform group-hover:scale-105">
         <div class="flex items-baseline gap-1 sm:gap-1.5">
           <span class="font-bold text-base sm:text-lg tracking-tight text-stone-900">LISAN</span>
           <span class="font-ethiopic text-stone-500 text-xs sm:text-sm font-medium">ልሳን</span>
@@ -200,8 +198,12 @@
       </a>
 
       <!-- Center Links (Desktop) -->
-      <div class="hidden md:flex items-center gap-8 text-[14px] font-medium text-stone-600">
-        <a href="#experience" class="hover:text-stone-950 transition-colors">Experience</a>
+      <div class="hidden md:flex items-center gap-7 text-[14px] font-medium text-stone-600">
+        <a href="#demo" class="text-terracotta hover:text-terracotta-700 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="play-circle" class="w-4 h-4"></i>
+          <span>Demo Video</span>
+        </a>
+        <a href="#experience" class="hover:text-stone-950 transition-colors">Audio Player</a>
         <a href="#scenarios" class="hover:text-stone-950 transition-colors">Field Scenarios</a>
         <a href="#technology" class="hover:text-stone-950 transition-colors">On-Device AI</a>
         <a href="#benchmarks" class="hover:text-stone-950 transition-colors">Benchmarks</a>
@@ -227,6 +229,13 @@
     <!-- Mobile Navigation Sheet / Dropdown Drawer -->
     <div id="mobileMenu" class="hidden md:hidden max-w-6xl mx-auto mt-2 p-3 sm:p-4 rounded-3xl glass-card shadow-2xl border border-white/80 transition-all duration-200">
       <div class="flex flex-col space-y-1 text-sm font-medium text-stone-700">
+        <a href="#demo" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl bg-terracotta/5 hover:bg-terracotta/10 transition-colors">
+          <span class="flex items-center gap-2.5">
+            <i data-lucide="play-circle" class="w-4 h-4 text-terracotta"></i>
+            <span class="font-semibold text-terracotta-700">Demo Video (YouTube)</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-terracotta"></i>
+        </a>
         <a href="#experience" class="mobile-nav-link flex items-center justify-between p-3 rounded-2xl hover:bg-stone-100/80 active:bg-stone-200/80 transition-colors">
           <span class="flex items-center gap-2.5">
             <i data-lucide="volume-2" class="w-4 h-4 text-terracotta"></i>
@@ -288,13 +297,13 @@
 
       <!-- Primary Action Row -->
       <div class="flex flex-col sm:flex-row items-center gap-3 w-full max-w-xs sm:max-w-md justify-center mb-10 sm:mb-12">
-        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm shadow-lg shadow-stone-900/15 hover:shadow-xl transition-all">
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Download Android APK</span>
+        <a href="#demo" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-stone-900 hover:bg-stone-800 text-white font-medium text-sm shadow-lg shadow-stone-900/15 hover:shadow-xl transition-all group">
+          <i data-lucide="play" class="w-4 h-4 text-terracotta group-hover:scale-110 transition-transform fill-terracotta"></i>
+          <span>Watch Demo Video</span>
         </a>
-        <a href="#experience" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full glass-pill hover:bg-white/80 text-stone-800 font-medium text-sm transition-all border border-stone-300/60">
-          <i data-lucide="volume-2" class="w-4 h-4 text-terracotta"></i>
-          <span>Listen to Live Demo</span>
+        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-full glass-pill hover:bg-white/80 text-stone-800 font-medium text-sm transition-all border border-stone-300/60">
+          <i data-lucide="download" class="w-4 h-4 text-stone-700"></i>
+          <span>Get Android App</span>
         </a>
       </div>
 
@@ -454,6 +463,150 @@
               <span><strong>Built-in Speech Repair & Noise Gate:</strong> Dynamically eliminates mic distortion, repetitive stutters, and background chatter.</span>
             </li>
           </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- 3.5 OFFICIAL DEMO VIDEO SECTION (#demo)                         -->
+  <!-- ============================================================== -->
+  <section id="demo" class="py-16 sm:py-24 px-4 sm:px-6 bg-[#161917] text-white relative overflow-hidden scroll-mt-20">
+    <!-- Atmospheric glows -->
+    <div class="absolute top-1/4 -right-32 w-96 h-96 bg-terracotta/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 -left-32 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto relative z-10">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-800/80 border border-stone-700/80 text-ambermist-200 text-xs font-semibold mb-3">
+          <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+          <span>FIELD DEMONSTRATION & BENCHMARK</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-light tracking-tight text-white mt-1">
+          Watch LISAN in <span class="font-serif italic text-terracotta">action.</span>
+        </h2>
+        <p class="text-stone-300 mt-3 text-sm sm:text-base leading-relaxed">
+          Real-time dual-speaker speech translation recorded live on an Android device running completely on-device without internet or cloud APIs.
+        </p>
+      </div>
+
+      <!-- Main Video Player Chassis -->
+      <div class="rounded-3xl bg-[#1C201C] border border-[#D89E35]/40 shadow-2xl shadow-black/80 overflow-hidden ring-1 ring-white/10">
+        
+        <!-- Hardware Header Bar -->
+        <div class="px-4 sm:px-6 py-3 bg-[#121512] border-b border-stone-800 flex items-center justify-between text-xs text-stone-400">
+          <div class="flex items-center gap-2.5">
+            <img src="assets/images/lisan_badge.png" class="w-5 h-5 rounded-full" alt="Lisan Badge">
+            <span class="font-mono text-stone-300 font-semibold tracking-wider">LISAN // MODEL 01 FEED</span>
+            <span class="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span class="hidden sm:inline-block text-[11px] text-emerald-400">1080p 60FPS</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">0ms On-Device Audio</span>
+            <button id="changeVideoBtn" onclick="toggleVideoInputModal()" class="text-xs text-stone-400 hover:text-white transition-colors flex items-center gap-1">
+              <i data-lucide="link" class="w-3 h-3"></i>
+              <span class="hidden sm:inline">Set YouTube URL</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 16:9 Video Canvas -->
+        <div class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden" id="videoCanvasContainer">
+          
+          <!-- YouTube Iframe Embed (dynamically injected / active) -->
+          <iframe 
+            id="youtubeIframe" 
+            class="w-full h-full border-0 absolute inset-0 hidden" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+
+          <!-- Fallback / Preview Card when no video ID is loaded yet -->
+          <div id="videoPlaceholder" class="relative z-10 w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#1A1F1B] to-[#0F1310]">
+            <!-- Subtle wave background graphics -->
+            <div class="absolute inset-0 opacity-15 pointer-events-none flex items-center justify-center">
+              <img src="assets/images/lisan_logo.png" class="w-96 h-96 object-contain filter grayscale" alt="Lisan Motif">
+            </div>
+
+            <div class="relative z-10 max-w-lg space-y-4">
+              <!-- Play Emblem Button -->
+              <div class="w-20 h-20 mx-auto rounded-full bg-stone-900 border-2 border-[#D89E35] flex items-center justify-center shadow-xl shadow-black/60 group cursor-pointer" onclick="promptYouTubeUrl()">
+                <div class="w-16 h-16 rounded-full bg-terracotta flex items-center justify-center text-white transition-transform group-hover:scale-105">
+                  <i data-lucide="play" class="w-8 h-8 ml-1 fill-white"></i>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">Demo Video Premiere</h3>
+                <p class="text-xs sm:text-sm text-stone-400 mt-1 max-w-sm mx-auto">
+                  Watch the field-tested performance of LISAN running live across rural healthcare and historical tourism scenarios.
+                </p>
+              </div>
+
+              <!-- Quick YouTube URL Input Form -->
+              <div class="pt-2 max-w-md mx-auto">
+                <form onsubmit="handleVideoSubmit(event)" class="flex items-center gap-2 bg-stone-900/90 p-1.5 rounded-full border border-stone-700/80 shadow-lg">
+                  <i data-lucide="youtube" class="w-5 h-5 text-red-500 ml-2.5 shrink-0"></i>
+                  <input 
+                    type="text" 
+                    id="youtubeUrlInput" 
+                    placeholder="Paste YouTube video link or ID..." 
+                    class="bg-transparent border-0 text-white text-xs px-2 focus:outline-none w-full placeholder:text-stone-500"
+                  />
+                  <button 
+                    type="submit" 
+                    class="px-4 py-1.5 rounded-full bg-terracotta hover:bg-terracotta-600 text-white text-xs font-semibold shrink-0 transition-colors">
+                    Play Video
+                  </button>
+                </form>
+                <p class="text-[11px] text-stone-500 mt-2">
+                  Tip: You can also set the URL directly via <code class="text-amber-300 font-mono">lisan.ermizamr.tech/#demo?v=YOUR_YOUTUBE_ID</code>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Video Player Bottom Scenarios Bar -->
+        <div class="p-4 sm:p-6 bg-[#141714] border-t border-stone-800/80 grid sm:grid-cols-2 gap-4">
+          <!-- Scenario 1 Highlight -->
+          <div class="p-3.5 rounded-2xl bg-stone-900/80 border border-stone-800 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="stethoscope" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-white">Scenario 01: Rural Clinic Triage</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">AM ↔ OR</span>
+              </div>
+              <p class="text-[11px] text-stone-400 mt-1 leading-snug">
+                Dr. Almaz & Obbo Desta: Medical symptom triage, fever & abdominal pain inquiry, malaria test recommendation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Scenario 2 Highlight -->
+          <div class="p-3.5 rounded-2xl bg-stone-900/80 border border-stone-800 flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-white">Scenario 02: Historical Axum Tour</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">EN ↔ TI</span>
+              </div>
+              <p class="text-[11px] text-stone-400 mt-1 leading-snug">
+                Clara & Guide Hailu: 4th-century King Ezana granite obelisk, subterranean royal tombs, cultural heritage exchange.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -1237,6 +1390,114 @@
         });
       });
     }
+
+    // =========================================================================
+    // 🎬 LISAN DEMO VIDEO CONTROLLER (#demo)
+    // =========================================================================
+    // Paste your YouTube video URL or ID below to hardcode it permanently:
+    // Examples:
+    //   const DEFAULT_DEMO_YOUTUBE = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    //   const DEFAULT_DEMO_YOUTUBE = "https://youtu.be/dQw4w9WgXcQ";
+    //   const DEFAULT_DEMO_YOUTUBE = "dQw4w9WgXcQ";
+    // =========================================================================
+    const DEFAULT_DEMO_YOUTUBE = ""; // <-- PASTE YOUTUBE URL OR ID HERE
+
+    function parseYouTubeId(input) {
+      if (!input) return null;
+      input = input.trim();
+      // Handle standard URL formats
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+      const match = input.match(regExp);
+      if (match && match[1]) {
+        return match[1];
+      }
+      // Handle direct 11-char ID
+      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+        return input;
+      }
+      return null;
+    }
+
+    function loadDemoVideo(youtubeInput, autoScroll = false) {
+      const videoId = parseYouTubeId(youtubeInput);
+      const iframe = document.getElementById("youtubeIframe");
+      const placeholder = document.getElementById("videoPlaceholder");
+
+      if (videoId && iframe && placeholder) {
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.classList.remove("hidden");
+        placeholder.classList.add("hidden");
+        try { localStorage.setItem("lisan_demo_video_id", videoId); } catch(e) {}
+        
+        const inputField = document.getElementById("youtubeUrlInput");
+        if (inputField) inputField.value = `https://youtu.be/${videoId}`;
+
+        if (autoScroll) {
+          const demoSection = document.getElementById("demo");
+          if (demoSection) {
+            setTimeout(() => {
+              demoSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }
+        }
+        return true;
+      }
+      return false;
+    }
+
+    function handleVideoSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById("youtubeUrlInput");
+      if (input && input.value) {
+        const success = loadDemoVideo(input.value);
+        if (!success) {
+          alert("Please enter a valid YouTube video link (e.g. https://youtu.be/... or 11-character video ID).");
+        }
+      }
+    }
+
+    function promptYouTubeUrl() {
+      const current = localStorage.getItem("lisan_demo_video_id") || "";
+      const url = prompt("Enter your YouTube video URL or ID for the LISAN demo:", current);
+      if (url) {
+        loadDemoVideo(url);
+      }
+    }
+
+    function toggleVideoInputModal() {
+      promptYouTubeUrl();
+    }
+
+    // Auto-check on page load: query parameter, hash parameter, default constant, or localStorage
+    window.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let targetId = urlParams.get("v") || urlParams.get("video");
+
+      if (!targetId && window.location.hash.includes("v=")) {
+        const hashMatch = window.location.hash.match(/[?&]v=([^&]+)/);
+        if (hashMatch && hashMatch[1]) targetId = hashMatch[1];
+      }
+
+      if (!targetId && DEFAULT_DEMO_YOUTUBE) {
+        targetId = DEFAULT_DEMO_YOUTUBE;
+      }
+
+      if (!targetId) {
+        try { targetId = localStorage.getItem("lisan_demo_video_id"); } catch(e) {}
+      }
+
+      const isDemoHash = window.location.hash.startsWith("#demo");
+      if (targetId) {
+        loadDemoVideo(targetId, isDemoHash);
+      } else if (isDemoHash) {
+        const demoSection = document.getElementById("demo");
+        if (demoSection) {
+          setTimeout(() => {
+            demoSection.scrollIntoView({ behavior: 'smooth' });
+          }, 150);
+        }
+      }
+    });
   </script>
 
 </body>
