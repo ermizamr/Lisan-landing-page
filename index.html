@@ -506,10 +506,7 @@
           </div>
           <div class="flex items-center gap-3">
             <span class="text-[11px] font-mono text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">0ms On-Device Audio</span>
-            <button id="changeVideoBtn" onclick="toggleVideoInputModal()" class="text-xs text-stone-400 hover:text-white transition-colors flex items-center gap-1">
-              <i data-lucide="link" class="w-3 h-3"></i>
-              <span class="hidden sm:inline">Set YouTube URL</span>
-            </button>
+            <span class="text-[11px] font-mono text-stone-400 hidden sm:inline-block">OFFLINE NEURAL PIPELINE</span>
           </div>
         </div>
 
@@ -532,8 +529,8 @@
             </div>
 
             <div class="relative z-10 max-w-lg space-y-4">
-              <!-- Play Emblem Button -->
-              <div class="w-20 h-20 mx-auto rounded-full bg-stone-900 border-2 border-[#D89E35] flex items-center justify-center shadow-xl shadow-black/60 group cursor-pointer" onclick="promptYouTubeUrl()">
+              <!-- Play Emblem Graphic -->
+              <div class="w-20 h-20 mx-auto rounded-full bg-stone-900 border-2 border-[#D89E35] flex items-center justify-center shadow-xl shadow-black/60 group">
                 <div class="w-16 h-16 rounded-full bg-terracotta flex items-center justify-center text-white transition-transform group-hover:scale-105">
                   <i data-lucide="play" class="w-8 h-8 ml-1 fill-white"></i>
                 </div>
@@ -546,25 +543,9 @@
                 </p>
               </div>
 
-              <!-- Quick YouTube URL Input Form -->
-              <div class="pt-2 max-w-md mx-auto">
-                <form onsubmit="handleVideoSubmit(event)" class="flex items-center gap-2 bg-stone-900/90 p-1.5 rounded-full border border-stone-700/80 shadow-lg">
-                  <i data-lucide="youtube" class="w-5 h-5 text-red-500 ml-2.5 shrink-0"></i>
-                  <input 
-                    type="text" 
-                    id="youtubeUrlInput" 
-                    placeholder="Paste YouTube video link or ID..." 
-                    class="bg-transparent border-0 text-white text-xs px-2 focus:outline-none w-full placeholder:text-stone-500"
-                  />
-                  <button 
-                    type="submit" 
-                    class="px-4 py-1.5 rounded-full bg-terracotta hover:bg-terracotta-600 text-white text-xs font-semibold shrink-0 transition-colors">
-                    Play Video
-                  </button>
-                </form>
-                <p class="text-[11px] text-stone-500 mt-2">
-                  Tip: You can also set the URL directly via <code class="text-amber-300 font-mono">lisan.ermizamr.tech/#demo?v=YOUR_YOUTUBE_ID</code>
-                </p>
+              <div class="pt-2 flex items-center justify-center gap-2 text-stone-400 text-xs">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>Dual-Speaker On-Device Speech Pipeline</span>
               </div>
 
             </div>
@@ -1424,10 +1405,6 @@
         iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
         iframe.classList.remove("hidden");
         placeholder.classList.add("hidden");
-        try { localStorage.setItem("lisan_demo_video_id", videoId); } catch(e) {}
-        
-        const inputField = document.getElementById("youtubeUrlInput");
-        if (inputField) inputField.value = `https://youtu.be/${videoId}`;
 
         if (autoScroll) {
           const demoSection = document.getElementById("demo");
@@ -1440,29 +1417,6 @@
         return true;
       }
       return false;
-    }
-
-    function handleVideoSubmit(e) {
-      if (e) e.preventDefault();
-      const input = document.getElementById("youtubeUrlInput");
-      if (input && input.value) {
-        const success = loadDemoVideo(input.value);
-        if (!success) {
-          alert("Please enter a valid YouTube video link (e.g. https://youtu.be/... or 11-character video ID).");
-        }
-      }
-    }
-
-    function promptYouTubeUrl() {
-      const current = localStorage.getItem("lisan_demo_video_id") || "";
-      const url = prompt("Enter your YouTube video URL or ID for the LISAN demo:", current);
-      if (url) {
-        loadDemoVideo(url);
-      }
-    }
-
-    function toggleVideoInputModal() {
-      promptYouTubeUrl();
     }
 
     // Auto-check on page load: query parameter, hash parameter, default constant, or localStorage
