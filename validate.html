@@ -40,6 +40,10 @@
 
       <div class="flex items-center space-x-3 text-xs sm:text-sm">
         <span id="progress-badge" class="text-stone-400">0 of 0 reviewed</span>
+        <button onclick="openCloudModal()" id="cloud-status-btn" class="px-2.5 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 transition flex items-center space-x-1.5 text-xs">
+          <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span id="cloud-status-text">Cloud Sync</span>
+        </button>
         <button onclick="exportValidatedJSONL()" class="px-3.5 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 font-semibold text-white transition flex items-center space-x-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           <span>Export Dataset</span>
@@ -122,8 +126,6 @@
           </button>
         </div>
       </div>
-    </div>
-
     <!-- Cards Grid -->
     <div id="cards-container" class="space-y-4">
       <!-- Dynamically Rendered -->
@@ -141,6 +143,39 @@
         </button>
       </div>
     </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- Cloud Settings Modal -->
+    <div id="cloud-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="card-well p-6 sm:p-8 rounded-2xl max-w-lg w-full space-y-5 border border-stone-700 bg-stone-900 shadow-2xl">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+            <span>Supabase Cloud Sync</span>
+          </h3>
+          <button onclick="closeCloudModal()" class="text-stone-400 hover:text-white text-sm font-bold">✕</button>
+        </div>
+        <p class="text-xs text-stone-400 leading-relaxed">
+          Connect your free Supabase PostgreSQL database. Every community approval, edit, and flag will automatically save to your centralized cloud database in real time.
+        </p>
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-stone-300 font-semibold mb-1">Supabase Project URL</label>
+            <input id="cfg-supabase-url" type="text" placeholder="https://your-project.supabase.co" class="w-full bg-stone-950 border border-stone-800 rounded-lg p-2.5 text-stone-200 focus:outline-none focus:border-emerald-500 font-mono text-xs">
+          </div>
+          <div>
+            <label class="block text-stone-300 font-semibold mb-1">Supabase Anon Public Key</label>
+            <input id="cfg-supabase-key" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full bg-stone-950 border border-stone-800 rounded-lg p-2.5 text-stone-200 focus:outline-none focus:border-emerald-500 font-mono text-xs">
+          </div>
+        </div>
+        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-stone-800">
+          <button onclick="closeCloudModal()" class="px-4 py-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 font-medium text-xs">Cancel</button>
+          <button onclick="saveCloudConfig()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs">Connect Database</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer class="border-t border-stone-800 py-6 text-center text-xs text-stone-500">
@@ -155,8 +190,107 @@
     const pageSize = 25;
     let searchQuery = '';
 
+    // Supabase Configuration
+    const SUPABASE_CONFIG = {
+      url: localStorage.getItem('LISAN_SUPABASE_URL') || '',
+      anonKey: localStorage.getItem('LISAN_SUPABASE_ANON_KEY') || '',
+      table: 'community_validations'
+    };
+
+    function updateCloudStatusUI() {
+      const dot = document.getElementById('cloud-status-dot');
+      const text = document.getElementById('cloud-status-text');
+      if (SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+        text.innerText = 'Cloud Active';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-amber-500';
+        text.innerText = 'Connect Cloud';
+      }
+    }
+
+    function openCloudModal() {
+      document.getElementById('cfg-supabase-url').value = SUPABASE_CONFIG.url;
+      document.getElementById('cfg-supabase-key').value = SUPABASE_CONFIG.anonKey;
+      const modal = document.getElementById('cloud-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCloudModal() {
+      const modal = document.getElementById('cloud-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveCloudConfig() {
+      const url = document.getElementById('cfg-supabase-url').value.trim();
+      const key = document.getElementById('cfg-supabase-key').value.trim();
+      SUPABASE_CONFIG.url = url;
+      SUPABASE_CONFIG.anonKey = key;
+      localStorage.setItem('LISAN_SUPABASE_URL', url);
+      localStorage.setItem('LISAN_SUPABASE_ANON_KEY', key);
+      updateCloudStatusUI();
+      closeCloudModal();
+      showToast('Cloud database connected successfully!', 'emerald');
+    }
+
+    function showToast(message, type = 'emerald') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bg = type === 'emerald' ? 'bg-emerald-950/90 border-emerald-600/50 text-emerald-300' : type === 'red' ? 'bg-red-950/90 border-red-600/50 text-red-300' : 'bg-stone-900 border-stone-700 text-stone-200';
+      toast.className = `px-4 py-2.5 rounded-xl border ${bg} text-xs font-semibold shadow-lg backdrop-blur transition-all duration-300 pointer-events-auto flex items-center space-x-2`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    async function syncToSupabase(item, action, customText = '') {
+      if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) {
+        showToast(`Saved locally (${action})`, 'stone');
+        return;
+      }
+      try {
+        const payload = {
+          tuple_id: item.id,
+          domain: item.domain,
+          scenario: item.scenario || '',
+          grammar_element: item.grammar_element || '',
+          target_lang: activeLang,
+          english_text: item.translations?.eng || '',
+          original_target: item.translations?.[activeLang] || '',
+          validated_text: customText || item.translations?.[activeLang] || '',
+          status: action,
+          created_at: new Date().toISOString()
+        };
+        const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/${SUPABASE_CONFIG.table}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_CONFIG.anonKey,
+            'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          showToast('Saved to Cloud Database ✓', 'emerald');
+        } else {
+          console.warn('Supabase error:', await res.text());
+          showToast('Saved locally (Cloud rejected request)', 'amber');
+        }
+      } catch (err) {
+        console.warn('Cloud sync error:', err);
+        showToast('Saved locally (Offline)', 'stone');
+      }
+    }
+
     // Load Dataset (from JSON or embedded fallback)
     async function loadDataset() {
+      updateCloudStatusUI();
       try {
         const res = await fetch('data/community_tuples.json');
         if (res.ok) {
@@ -168,7 +302,6 @@
       }
 
       if (dataset.length === 0) {
-        // Fallback embedded seed dataset
         dataset = [
           {
             id: "med_001",
@@ -180,18 +313,6 @@
               orm: "Guyyoota lamaaf dhukkubbiin qomaa cimaanii fi qaama gubaan natti hammaateera.",
               tir: "ንኽልተ መዓልታት ዝጸንሐ ጽኑዕ ናይ ኣፍልቢ ሕማምን ረስንን ነይሩኒ።",
               som: "Waxaan laba maalmood qabay laab xanuun daran iyo qandho xoog leh."
-            }
-          },
-          {
-            id: "idm_001",
-            domain: "cultural_idioms",
-            scenario: "emotional_sympathy",
-            translations: {
-              eng: "When I heard the tragic news, I was moved with grief.",
-              amh: "አሳዛኙን ዜና ስሰማ ሆዴ ባባ።",
-              orm: "Oduu gaddisiisaa sana yeroon dhaga'u garaan koo baay'ee na laafe.",
-              tir: "ነቲ ዘሕዝን ዜና ምስ ሰማዕኩ ልበይ ሰንበደ።",
-              som: "Markii aan warka naxdinta leh maqlay, aad baan uga tiiraanyooday."
             }
           }
         ];
@@ -260,7 +381,6 @@
       if (currentPage > totalPages) currentPage = totalPages;
       if (currentPage < 1) currentPage = 1;
 
-      // Update Pagination Controls
       const startIdx = (currentPage - 1) * pageSize;
       const endIdx = Math.min(startIdx + pageSize, totalFiltered);
       const paginationText = totalFiltered === 0 ? 'No sentences match your filter' : `Showing ${startIdx + 1}–${endIdx} of ${totalFiltered.toLocaleString()} sentences`;
@@ -346,8 +466,10 @@
       const item = dataset.find(d => d.id === id);
       if (item) {
         const input = document.getElementById(`input-${id}`);
-        if (input) item.translations[activeLang] = input.value.trim();
+        const validatedText = input ? input.value.trim() : item.translations[activeLang];
+        item.translations[activeLang] = validatedText;
         item.status = 'approved';
+        syncToSupabase(item, 'approved', validatedText);
         renderCards();
         updateProgress();
       }
@@ -357,8 +479,10 @@
       const item = dataset.find(d => d.id === id);
       const input = document.getElementById(`input-${id}`);
       if (item && input) {
-        item.translations[activeLang] = input.value.trim();
+        const validatedText = input.value.trim();
+        item.translations[activeLang] = validatedText;
         item.status = 'approved';
+        syncToSupabase(item, 'edited', validatedText);
         renderCards();
         updateProgress();
       }
@@ -368,6 +492,7 @@
       const item = dataset.find(d => d.id === id);
       if (item) {
         item.status = 'rejected';
+        syncToSupabase(item, 'rejected');
         renderCards();
         updateProgress();
       }
