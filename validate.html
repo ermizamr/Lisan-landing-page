@@ -70,35 +70,76 @@
       </div>
     </div>
 
-    <!-- Filters & Language Tabs -->
-    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-      <!-- Language Selector -->
-      <div class="flex flex-wrap gap-1.5 p-1 bg-stone-900 rounded-xl border border-stone-800 text-xs sm:text-sm font-medium">
-        <button onclick="setLang('amh')" id="btn-lang-amh" class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold">Amharic (አማርኛ)</button>
-        <button onclick="setLang('orm')" id="btn-lang-orm" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Afaan Oromoo</button>
-        <button onclick="setLang('tir')" id="btn-lang-tir" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Tigrinya (ትግርኛ)</button>
-        <button onclick="setLang('som')" id="btn-lang-som" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Somali (Soomaali)</button>
+    <!-- Filters, Search & Language Tabs -->
+    <div class="space-y-4">
+      <div class="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <!-- Language Selector -->
+        <div class="flex flex-wrap gap-1.5 p-1 bg-stone-900 rounded-xl border border-stone-800 text-xs sm:text-sm font-medium">
+          <button onclick="setLang('amh')" id="btn-lang-amh" class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold">Amharic (አማርኛ)</button>
+          <button onclick="setLang('orm')" id="btn-lang-orm" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Afaan Oromoo</button>
+          <button onclick="setLang('tir')" id="btn-lang-tir" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Tigrinya (ትግርኛ)</button>
+          <button onclick="setLang('som')" id="btn-lang-som" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Somali (Soomaali)</button>
+        </div>
+
+        <!-- Search & Domain Filter -->
+        <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+          <!-- Search Input -->
+          <div class="relative flex-1 md:w-64">
+            <input
+              id="search-input"
+              type="text"
+              oninput="onSearchChange()"
+              placeholder="Search sentences, words..."
+              class="w-full bg-stone-900 border border-stone-800 text-stone-200 text-xs sm:text-sm rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:border-orange-500"
+            />
+            <svg class="w-3.5 h-3.5 text-stone-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+
+          <!-- Domain Dropdown -->
+          <select id="domain-filter" onchange="onDomainChange()" class="bg-stone-900 border border-stone-800 text-stone-200 text-xs sm:text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-orange-500">
+            <option value="all">All Domains (3,421)</option>
+            <option value="emergency_medical">Emergency & Medical Triage</option>
+            <option value="cultural_idioms">Cultural Idioms & Proverbs</option>
+            <option value="commerce_market">Commerce & Marketplace</option>
+            <option value="navigation_transit">Navigation & Transit</option>
+            <option value="civic_administration">Civic & Kebele Administration</option>
+            <option value="grammar_conjugation">Grammar Conjugations</option>
+            <option value="daily_action">Daily & Social Actions</option>
+          </select>
+        </div>
       </div>
 
-      <!-- Domain Filter -->
-      <div class="flex items-center space-x-2 w-full sm:w-auto">
-        <label for="domain-filter" class="text-xs text-stone-400 font-semibold whitespace-nowrap">Filter Domain:</label>
-        <select id="domain-filter" onchange="renderCards()" class="bg-stone-900 border border-stone-800 text-stone-200 text-xs sm:text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-orange-500 w-full sm:w-auto">
-          <option value="all">All Domains</option>
-          <option value="emergency_medical">Emergency & Medical Triage</option>
-          <option value="cultural_idioms">Cultural Idioms & Proverbs</option>
-          <option value="commerce_market">Commerce & Marketplace</option>
-          <option value="navigation_transit">Navigation & Ethiopian Transit</option>
-          <option value="civic_administration">Civic & Kebele Administration</option>
-          <option value="grammar_conjugation">Grammar & Tense Conjugations</option>
-          <option value="grammar_honorifics">Grammar & Polite Registers</option>
-        </select>
+      <!-- Pagination Toolbar -->
+      <div class="flex items-center justify-between text-xs text-stone-400 px-1 py-2 border-y border-stone-800/70">
+        <div id="pagination-info" class="font-medium">Loading sentences...</div>
+        <div class="flex items-center space-x-2">
+          <button id="btn-prev" onclick="changePage(-1)" class="px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 disabled:opacity-30 disabled:cursor-not-allowed font-medium transition">
+            ← Prev
+          </button>
+          <span id="page-indicator" class="font-semibold text-stone-300 px-2">Page 1 of 1</span>
+          <button id="btn-next" onclick="changePage(1)" class="px-2.5 py-1 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 disabled:opacity-30 disabled:cursor-not-allowed font-medium transition">
+            Next →
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Cards Grid -->
     <div id="cards-container" class="space-y-4">
       <!-- Dynamically Rendered -->
+    </div>
+
+    <!-- Bottom Pagination Toolbar -->
+    <div class="flex items-center justify-between text-xs text-stone-400 px-1 py-4 border-t border-stone-800/70">
+      <div id="pagination-info-bottom" class="font-medium"></div>
+      <div class="flex items-center space-x-2">
+        <button id="btn-prev-bottom" onclick="changePage(-1)" class="px-3 py-1.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 disabled:opacity-30 disabled:cursor-not-allowed font-medium transition">
+          ← Previous Page
+        </button>
+        <button id="btn-next-bottom" onclick="changePage(1)" class="px-3 py-1.5 rounded bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-300 disabled:opacity-30 disabled:cursor-not-allowed font-medium transition">
+          Next Page →
+        </button>
+      </div>
     </div>
   </main>
 
@@ -110,6 +151,9 @@
     let activeLang = 'amh';
     let dataset = [];
     let reviewedCount = 0;
+    let currentPage = 1;
+    const pageSize = 25;
+    let searchQuery = '';
 
     // Load Dataset (from JSON or embedded fallback)
     async function loadDataset() {
@@ -139,63 +183,15 @@
             }
           },
           {
-            id: "med_002",
-            domain: "emergency_medical",
-            scenario: "obstetrics_labor_delivery",
-            translations: {
-              eng: "Are you experiencing any vaginal bleeding or labor contractions?",
-              amh: "ምንም አይነት የደም መፍሰስ ወይም የምጥ ስሜት ይሰማዎታል?",
-              orm: "Dhiigni qaama saalaa dhangala'u yookaan ciniinsuun dhukkubaa si mudateeraa?",
-              tir: "ምፍሳስ ደም ወይስ ስምዒት ምጥ የጋጥመክን ኣሎ ዶ?",
-              som: "Ma dareemaysaa wax dhiig bax ah ama xanuunka foolasha?"
-            }
-          },
-          {
             id: "idm_001",
             domain: "cultural_idioms",
             scenario: "emotional_sympathy",
             translations: {
-              eng: "When I heard the tragic news, I was moved to tears.",
+              eng: "When I heard the tragic news, I was moved with grief.",
               amh: "አሳዛኙን ዜና ስሰማ ሆዴ ባባ።",
               orm: "Oduu gaddisiisaa sana yeroon dhaga'u garaan koo baay'ee na laafe.",
               tir: "ነቲ ዘሕዝን ዜና ምስ ሰማዕኩ ልበይ ሰንበደ።",
-              som: "Markii aan warka naxdinta leh maqlay, aad baan uga tiiraanyooday oo ilmeeyay."
-            }
-          },
-          {
-            id: "idm_004",
-            domain: "cultural_idioms",
-            scenario: "dizziness_vertigo",
-            translations: {
-              eng: "The room is spinning and I feel very dizzy.",
-              amh: "አይኔ እየጨለመ ራሴን እያዞረኝ ነው።",
-              orm: "Lafti natti maraa jira, akkasumas sammuun na naanna'aa jira.",
-              tir: "ኣዒንተይ እናጸልመተ ርእሰይ የዕዘረኒ ኣሎ።",
-              som: "Dunnida ayaa igu wareegaysa aadna waan u wareersanahay."
-            }
-          },
-          {
-            id: "com_001",
-            domain: "commerce_market",
-            scenario: "teff_grain_bargaining",
-            translations: {
-              eng: "How much does a quintal of white Magna teff cost today?",
-              amh: "ዛሬ የአንድ ኩንታል የነጭ ማኛ ጤፍ ዋጋ ስንት ነው?",
-              orm: "Har'a gatiin xaafii adii maangaa kintaala tokkoo meeqa?",
-              tir: "ሎሚ ዋጋ ሓደ ኲንታል ጻዕዳ ጣፍ ክንደይ እዩ?",
-              som: "Immisaa maanta qiimaha hal kintaal oo ah daafi cad?"
-            }
-          },
-          {
-            id: "nav_001",
-            domain: "navigation_transit",
-            scenario: "bus_terminal_schedule",
-            translations: {
-              eng: "What time does the morning cross-country bus leave for Bahir Dar?",
-              amh: "የጠዋቱ የሀገር አቋራጭ አውቶቡስ ወደ ባህር ዳር ስንት ሰዓት ይነሳል?",
-              orm: "Otobisii ganamaa gara Baahir Daar deemu sa'aatii meeqatti ka'a?",
-              tir: "ናይ ንግሆ ኣውቶቡስ ናብ ባሕሪ ዳር ክንደይ ሰዓት ይብገስ?",
-              som: "Baska aroortii ee gobollada u socda Bahir Dar goormuu baxayaa?"
+              som: "Markii aan warka naxdinta leh maqlay, aad baan uga tiiraanyooday."
             }
           }
         ];
@@ -222,26 +218,82 @@
       renderCards();
     }
 
+    function onSearchChange() {
+      searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+      currentPage = 1;
+      renderCards();
+    }
+
+    function onDomainChange() {
+      currentPage = 1;
+      renderCards();
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderCards();
+      window.scrollTo({ top: 250, behavior: 'smooth' });
+    }
+
+    function getFilteredData() {
+      const domain = document.getElementById('domain-filter').value;
+      return dataset.filter(item => {
+        const matchDomain = domain === 'all' || item.domain === domain;
+        if (!matchDomain) return false;
+        if (!searchQuery) return true;
+
+        const eng = (item.translations?.eng || '').toLowerCase();
+        const target = (item.translations?.[activeLang] || '').toLowerCase();
+        const id = (item.id || '').toLowerCase();
+        return eng.includes(searchQuery) || target.includes(searchQuery) || id.includes(searchQuery);
+      });
+    }
+
     function renderCards() {
       const container = document.getElementById('cards-container');
-      const domain = document.getElementById('domain-filter').value;
       container.innerHTML = '';
 
-      const filtered = dataset.filter(item => domain === 'all' || item.domain === domain);
+      const filtered = getFilteredData();
+      const totalFiltered = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
 
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="card-well p-8 rounded-xl text-center text-stone-400 text-sm">No sentences found for this domain.</div>`;
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      // Update Pagination Controls
+      const startIdx = (currentPage - 1) * pageSize;
+      const endIdx = Math.min(startIdx + pageSize, totalFiltered);
+      const paginationText = totalFiltered === 0 ? 'No sentences match your filter' : `Showing ${startIdx + 1}–${endIdx} of ${totalFiltered.toLocaleString()} sentences`;
+
+      document.getElementById('pagination-info').innerText = paginationText;
+      document.getElementById('pagination-info-bottom').innerText = paginationText;
+      document.getElementById('page-indicator').innerText = `Page ${currentPage} of ${totalPages}`;
+
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnPrevB = document.getElementById('btn-prev-bottom');
+      const btnNextB = document.getElementById('btn-next-bottom');
+
+      btnPrev.disabled = currentPage <= 1;
+      btnNext.disabled = currentPage >= totalPages;
+      btnPrevB.disabled = currentPage <= 1;
+      btnNextB.disabled = currentPage >= totalPages;
+
+      if (totalFiltered === 0) {
+        container.innerHTML = `<div class="card-well p-10 rounded-xl text-center text-stone-400 text-sm">No sentences found matching "${searchQuery}". Try selecting another domain or clearing the search.</div>`;
         return;
       }
 
-      filtered.forEach((item, index) => {
+      const pageItems = filtered.slice(startIdx, endIdx);
+
+      pageItems.forEach((item) => {
         const currentText = item.translations[activeLang] || '';
         const card = document.createElement('div');
         card.className = `card-well p-5 rounded-xl space-y-4 transition ${item.status === 'approved' ? 'border-emerald-700/60 bg-emerald-950/10' : item.status === 'rejected' ? 'border-red-800/40 opacity-60' : ''}`;
 
         card.innerHTML = `
           <div class="flex items-center justify-between text-xs text-stone-400">
-            <span class="font-mono text-stone-500 uppercase">${item.id} · ${item.domain.replace('_', ' ')}</span>
+            <span class="font-mono text-stone-500 uppercase">${item.id} · ${item.domain.replace(/_/g, ' ')}</span>
             <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${item.status === 'approved' ? 'bg-emerald-900/60 text-emerald-300' : item.status === 'rejected' ? 'bg-red-950/60 text-red-300' : 'bg-stone-800 text-stone-400'}">
               ${item.status.toUpperCase()}
             </span>
@@ -265,13 +317,13 @@
 
           <!-- Action Buttons -->
           <div class="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-stone-800/60">
-            <button onclick="approveItem('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-700/40 text-xs font-semibold flex items-center space-x-1.5">
+            <button onclick="approveItem('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-700/40 text-xs font-semibold flex items-center space-x-1.5 transition">
               <span>✓ Approve (ትክክል ነው)</span>
             </button>
-            <button onclick="saveEdit('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold">
+            <button onclick="saveEdit('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition">
               <span>Save Edit</span>
             </button>
-            <button onclick="rejectItem('${item.id}')" class="px-3 py-1.5 rounded-lg bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-xs font-semibold">
+            <button onclick="rejectItem('${item.id}')" class="px-3 py-1.5 rounded-lg bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-xs font-semibold transition">
               <span>✕ Inaccurate</span>
             </button>
           </div>
@@ -326,7 +378,7 @@
       reviewedCount = dataset.filter(d => d.status === 'approved' || d.status === 'rejected').length;
       const pct = total === 0 ? 0 : Math.round((reviewedCount / total) * 100);
 
-      document.getElementById('progress-badge').innerText = `${reviewedCount} of ${total} reviewed`;
+      document.getElementById('progress-badge').innerText = `${reviewedCount.toLocaleString()} of ${total.toLocaleString()} reviewed`;
       document.getElementById('progress-percent').innerText = `${pct}%`;
       document.getElementById('progress-bar-fill').style.width = `${pct}%`;
     }
