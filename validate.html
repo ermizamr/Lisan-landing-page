@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LISAN Community Translation Validation Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Ethiopic', sans-serif;
+      background-color: #0E100D;
+      color: #E2E6D8;
+    }
+    .accent-orange { color: #F05A36; }
+    .bg-accent-orange { background-color: #F05A36; }
+    .border-accent-orange { border-color: #F05A36; }
+    .card-well {
+      background-color: #161915;
+      border: 1px solid #282C26;
+    }
+    .card-well:hover {
+      border-color: #3E443B;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="border-b border-stone-800 bg-stone-950/80 backdrop-blur sticky top-0 z-30 px-4 py-3.5 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <a href="/" class="flex items-center space-x-2.5">
+          <span class="text-2xl font-black tracking-tight accent-orange">LISAN</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-orange-950/60 text-orange-400 border border-orange-800/40">VALIDATION HUB</span>
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-3 text-xs sm:text-sm">
+        <span id="progress-badge" class="text-stone-400">0 of 0 reviewed</span>
+        <button onclick="exportValidatedJSONL()" class="px-3.5 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 font-semibold text-white transition flex items-center space-x-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          <span>Export Dataset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Instructions -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 space-y-6">
+    <div class="card-well p-6 sm:p-8 rounded-2xl relative overflow-hidden">
+      <div class="max-w-3xl space-y-3">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Community Translation Validator (ልሳን)</h1>
+        <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+          Help us train the first truly production-grade, offline AI translation model for Ethiopia and the Horn of Africa. Review the translations below, edit any mistakes, and approve authentic native phrasing.
+        </p>
+      </div>
+
+      <!-- Live Progress Bar -->
+      <div class="mt-6 pt-6 border-t border-stone-800 space-y-2">
+        <div class="flex justify-between text-xs font-semibold text-stone-400">
+          <span>Validation Progress</span>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div class="w-full bg-stone-900 rounded-full h-2.5 overflow-hidden">
+          <div id="progress-bar-fill" class="bg-gradient-to-r from-orange-600 to-amber-500 h-2.5 rounded-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters & Language Tabs -->
+    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <!-- Language Selector -->
+      <div class="flex flex-wrap gap-1.5 p-1 bg-stone-900 rounded-xl border border-stone-800 text-xs sm:text-sm font-medium">
+        <button onclick="setLang('amh')" id="btn-lang-amh" class="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold">Amharic (አማርኛ)</button>
+        <button onclick="setLang('orm')" id="btn-lang-orm" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Afaan Oromoo</button>
+        <button onclick="setLang('tir')" id="btn-lang-tir" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Tigrinya (ትግርኛ)</button>
+        <button onclick="setLang('som')" id="btn-lang-som" class="px-3 py-1.5 rounded-lg text-stone-400 hover:text-white">Somali (Soomaali)</button>
+      </div>
+
+      <!-- Domain Filter -->
+      <div class="flex items-center space-x-2 w-full sm:w-auto">
+        <label for="domain-filter" class="text-xs text-stone-400 font-semibold whitespace-nowrap">Filter Domain:</label>
+        <select id="domain-filter" onchange="renderCards()" class="bg-stone-900 border border-stone-800 text-stone-200 text-xs sm:text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-orange-500 w-full sm:w-auto">
+          <option value="all">All Domains</option>
+          <option value="emergency_medical">Emergency & Medical Triage</option>
+          <option value="cultural_idioms">Cultural Idioms & Metaphors</option>
+          <option value="commerce_market">Commerce & Marketplace</option>
+          <option value="navigation_transit">Navigation & Ethiopian Transit</option>
+          <option value="civic_administration">Civic & Kebele Administration</option>
+          <option value="grammar_honorifics">Grammar & Polite Registers</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="cards-container" class="space-y-4">
+      <!-- Dynamically Rendered -->
+    </div>
+  </main>
+
+  <footer class="border-t border-stone-800 py-6 text-center text-xs text-stone-500">
+    <p>LISAN (ልሳን) · Offline AI Voice Translation for Ethiopian & Horn of Africa Languages</p>
+  </footer>
+
+  <script>
+    let activeLang = 'amh';
+    let dataset = [];
+    let reviewedCount = 0;
+
+    // Load Dataset (embedded or via JSON)
+    async function loadDataset() {
+      try {
+        const res = await fetch('/data/gold_dataset/lisan_gold_5way_expanded.jsonl');
+        if (res.ok) {
+          const text = await res.text();
+          dataset = text.trim().split('\n').map(l => JSON.parse(l));
+        }
+      } catch (e) {
+        console.warn('Dynamic fetch fallback to default dataset samples:', e);
+      }
+
+      if (dataset.length === 0) {
+        // Fallback embedded seed dataset
+        dataset = [
+          {
+            id: "med_001",
+            domain: "emergency_medical",
+            scenario: "cardiology_chest_pain",
+            translations: {
+              eng: "I have had severe chest pain and fever for two days.",
+              amh: "ለሁለት ቀናት ከባድ የደረት ህመም እና ትኩሳት ነበረኝ።",
+              orm: "Guyyoota lamaaf dhukkubbiin qomaa cimaanii fi qaama gubaan natti hammaateera.",
+              tir: "ንኽልተ መዓልታት ዝጸንሐ ጽኑዕ ናይ ኣፍልቢ ሕማምን ረስንን ነይሩኒ።",
+              som: "Waxaan laba maalmood qabay laab xanuun daran iyo qandho xoog leh."
+            }
+          },
+          {
+            id: "med_002",
+            domain: "emergency_medical",
+            scenario: "obstetrics_labor_delivery",
+            translations: {
+              eng: "Are you experiencing any vaginal bleeding or labor contractions?",
+              amh: "ምንም አይነት የደም መፍሰስ ወይም የምጥ ስሜት ይሰማዎታል?",
+              orm: "Dhiigni qaama saalaa dhangala'u yookaan ciniinsuun dhukkubaa si mudateeraa?",
+              tir: "ምፍሳስ ደም ወይስ ስምዒት ምጥ የጋጥመክን ኣሎ ዶ?",
+              som: "Ma dareemaysaa wax dhiig bax ah ama xanuunka foolasha?"
+            }
+          },
+          {
+            id: "idm_001",
+            domain: "cultural_idioms",
+            scenario: "emotional_sympathy",
+            translations: {
+              eng: "When I heard the tragic news, I was moved to tears.",
+              amh: "አሳዛኙን ዜና ስሰማ ሆዴ ባባ።",
+              orm: "Oduu gaddisiisaa sana yeroon dhaga'u garaan koo baay'ee na laafe.",
+              tir: "ነቲ ዘሕዝን ዜና ምስ ሰማዕኩ ልበይ ሰንበደ።",
+              som: "Markii aan warka naxdinta leh maqlay, aad baan uga tiiraanyooday oo ilmeeyay."
+            }
+          },
+          {
+            id: "idm_004",
+            domain: "cultural_idioms",
+            scenario: "dizziness_vertigo",
+            translations: {
+              eng: "The room is spinning and I feel very dizzy.",
+              amh: "አይኔ እየጨለመ ራሴን እያዞረኝ ነው።",
+              orm: "Lafti natti maraa jira, akkasumas sammuun na naanna'aa jira.",
+              tir: "ኣዒንተይ እናጸልመተ ርእሰይ የዕዘረኒ ኣሎ።",
+              som: "Dunnida ayaa igu wareegaysa aadna waan u wareersanahay."
+            }
+          },
+          {
+            id: "com_001",
+            domain: "commerce_market",
+            scenario: "teff_grain_bargaining",
+            translations: {
+              eng: "How much does a quintal of white Magna teff cost today?",
+              amh: "ዛሬ የአንድ ኩንታል የነጭ ማኛ ጤፍ ዋጋ ስንት ነው?",
+              orm: "Har'a gatiin xaafii adii maangaa kintaala tokkoo meeqa?",
+              tir: "ሎሚ ዋጋ ሓደ ኲንታል ጻዕዳ ጣፍ ክንደይ እዩ?",
+              som: "Immisaa maanta qiimaha hal kintaal oo ah daafi cad?"
+            }
+          },
+          {
+            id: "nav_001",
+            domain: "navigation_transit",
+            scenario: "bus_terminal_schedule",
+            translations: {
+              eng: "What time does the morning cross-country bus leave for Bahir Dar?",
+              amh: "የጠዋቱ የሀገር አቋራጭ አውቶቡስ ወደ ባህር ዳር ስንት ሰዓት ይነሳል?",
+              orm: "Otobisii ganamaa gara Baahir Daar deemu sa'aatii meeqatti ka'a?",
+              tir: "ናይ ንግሆ ኣውቶቡስ ናብ ባሕሪ ዳር ክንደይ ሰዓት ይብገስ?",
+              som: "Baska aroortii ee gobollada u socda Bahir Dar goormuu baxayaa?"
+            }
+          }
+        ];
+      }
+
+      dataset.forEach(item => {
+        item.status = item.status || 'pending';
+      });
+
+      renderCards();
+      updateProgress();
+    }
+
+    function setLang(lang) {
+      activeLang = lang;
+      ['amh', 'orm', 'tir', 'som'].forEach(l => {
+        const btn = document.getElementById(`btn-lang-${l}`);
+        if (l === lang) {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-orange-600 text-white font-semibold';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-stone-400 hover:text-white';
+        }
+      });
+      renderCards();
+    }
+
+    function renderCards() {
+      const container = document.getElementById('cards-container');
+      const domain = document.getElementById('domain-filter').value;
+      container.innerHTML = '';
+
+      const filtered = dataset.filter(item => domain === 'all' || item.domain === domain);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="card-well p-8 rounded-xl text-center text-stone-400 text-sm">No sentences found for this domain.</div>`;
+        return;
+      }
+
+      filtered.forEach((item, index) => {
+        const currentText = item.translations[activeLang] || '';
+        const card = document.createElement('div');
+        card.className = `card-well p-5 rounded-xl space-y-4 transition ${item.status === 'approved' ? 'border-emerald-700/60 bg-emerald-950/10' : item.status === 'rejected' ? 'border-red-800/40 opacity-60' : ''}`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-xs text-stone-400">
+            <span class="font-mono text-stone-500 uppercase">${item.id} · ${item.domain.replace('_', ' ')}</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${item.status === 'approved' ? 'bg-emerald-900/60 text-emerald-300' : item.status === 'rejected' ? 'bg-red-950/60 text-red-300' : 'bg-stone-800 text-stone-400'}">
+              ${item.status.toUpperCase()}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- English Reference -->
+            <div class="space-y-1">
+              <span class="text-[11px] font-semibold tracking-wider uppercase text-stone-500">English Concept</span>
+              <p class="text-sm sm:text-base text-stone-200 font-medium">${item.translations.eng}</p>
+            </div>
+
+            <!-- Target Language Under Validation -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold tracking-wider uppercase accent-orange">${getLangLabel(activeLang)}</span>
+              </div>
+              <textarea id="input-${item.id}" rows="2" class="w-full bg-stone-900/80 border border-stone-700 rounded-lg p-2.5 text-sm sm:text-base text-white focus:outline-none focus:border-orange-500">${currentText}</textarea>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-stone-800/60">
+            <button onclick="approveItem('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-700/40 text-xs font-semibold flex items-center space-x-1.5">
+              <span>✓ Approve (ትክክል ነው)</span>
+            </button>
+            <button onclick="saveEdit('${item.id}')" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold">
+              <span>Save Edit</span>
+            </button>
+            <button onclick="rejectItem('${item.id}')" class="px-3 py-1.5 rounded-lg bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-xs font-semibold">
+              <span>✕ Inaccurate</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function getLangLabel(code) {
+      switch(code) {
+        case 'amh': return 'Amharic (አማርኛ)';
+        case 'orm': return 'Afaan Oromoo';
+        case 'tir': return 'Tigrinya (ትግርኛ)';
+        case 'som': return 'Somali (Soomaali)';
+        default: return code;
+      }
+    }
+
+    function approveItem(id) {
+      const item = dataset.find(d => d.id === id);
+      if (item) {
+        const input = document.getElementById(`input-${id}`);
+        if (input) item.translations[activeLang] = input.value.trim();
+        item.status = 'approved';
+        renderCards();
+        updateProgress();
+      }
+    }
+
+    function saveEdit(id) {
+      const item = dataset.find(d => d.id === id);
+      const input = document.getElementById(`input-${id}`);
+      if (item && input) {
+        item.translations[activeLang] = input.value.trim();
+        item.status = 'approved';
+        renderCards();
+        updateProgress();
+      }
+    }
+
+    function rejectItem(id) {
+      const item = dataset.find(d => d.id === id);
+      if (item) {
+        item.status = 'rejected';
+        renderCards();
+        updateProgress();
+      }
+    }
+
+    function updateProgress() {
+      const total = dataset.length;
+      reviewedCount = dataset.filter(d => d.status === 'approved' || d.status === 'rejected').length;
+      const pct = total === 0 ? 0 : Math.round((reviewedCount / total) * 100);
+
+      document.getElementById('progress-badge').innerText = `${reviewedCount} of ${total} reviewed`;
+      document.getElementById('progress-percent').innerText = `${pct}%`;
+      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+    }
+
+    function exportValidatedJSONL() {
+      const approved = dataset.filter(d => d.status === 'approved');
+      if (approved.length === 0) {
+        alert('Please review and approve at least one translation before exporting!');
+        return;
+      }
+      const jsonl = approved.map(item => JSON.stringify(item)).join('\n');
+      const blob = new Blob([jsonl], { type: 'application/jsonl' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lisan_community_validated_${activeLang}.jsonl`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    window.onload = loadDataset;
+  </script>
+</body>
+</html>
