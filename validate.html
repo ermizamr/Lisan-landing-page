@@ -86,10 +86,11 @@
         <select id="domain-filter" onchange="renderCards()" class="bg-stone-900 border border-stone-800 text-stone-200 text-xs sm:text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-orange-500 w-full sm:w-auto">
           <option value="all">All Domains</option>
           <option value="emergency_medical">Emergency & Medical Triage</option>
-          <option value="cultural_idioms">Cultural Idioms & Metaphors</option>
+          <option value="cultural_idioms">Cultural Idioms & Proverbs</option>
           <option value="commerce_market">Commerce & Marketplace</option>
           <option value="navigation_transit">Navigation & Ethiopian Transit</option>
           <option value="civic_administration">Civic & Kebele Administration</option>
+          <option value="grammar_conjugation">Grammar & Tense Conjugations</option>
           <option value="grammar_honorifics">Grammar & Polite Registers</option>
         </select>
       </div>
@@ -110,16 +111,16 @@
     let dataset = [];
     let reviewedCount = 0;
 
-    // Load Dataset (embedded or via JSON)
+    // Load Dataset (from JSON or embedded fallback)
     async function loadDataset() {
       try {
-        const res = await fetch('/data/gold_dataset/lisan_gold_5way_expanded.jsonl');
+        const res = await fetch('data/community_tuples.json');
         if (res.ok) {
-          const text = await res.text();
-          dataset = text.trim().split('\n').map(l => JSON.parse(l));
+          dataset = await res.json();
+          console.log(`Loaded ${dataset.length} validation items from community_tuples.json`);
         }
       } catch (e) {
-        console.warn('Dynamic fetch fallback to default dataset samples:', e);
+        console.warn('Fetch failed, falling back to embedded tuples:', e);
       }
 
       if (dataset.length === 0) {
